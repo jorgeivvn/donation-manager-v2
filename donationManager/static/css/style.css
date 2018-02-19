@@ -1,0 +1,7 @@
+header .container-fluid {
+  background-color: teal;
+}
+
+footer .container-fluid {
+  background-color: green;
+}

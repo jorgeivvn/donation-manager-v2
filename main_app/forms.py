@@ -63,9 +63,12 @@ class OrgAdminSignUpForm(UserCreationForm):
         user.is_org_admin = True
         user.save()
         org_admin = OrgAdmin.objects.create(user=user)
-        org_admin.org_name.add(*self.cleaned_data.get('org_name'))
-        org_admin.org_location.add(*self.cleaned_data.get('org_location'))
-        org_admin.org_bio.add(*self.cleaned_data.get('org_bio'))
+        org_admin.org_name = self.cleaned_data.get('org_name')
+        org_admin.org_location = self.cleaned_data.get('org_location')
+        org_admin.org_location = self.cleaned_data.get('org_bio')
+        # org_admin.org_name.add(*self.cleaned_data.get('org_name'))
+        # org_admin.org_location.add(*self.cleaned_data.get('org_location'))
+        # org_admin.org_bio.add(*self.cleaned_data.get('org_bio'))
         return user
 
 
