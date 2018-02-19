@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+
+{% block content %}
+  <p>Name: {{ relief_effort.name }}</p>
+  <p>Desc: {{ relief_effort.desc }}</p>
+  <p>Location: {{ relief_effort.location }}</p>
+  <h5>Item Requests</h5>
+  <ul>
+  {% for item in ir %}
+    <li>Name: {{ item.name }} Desc: {{ item.desc }}</li>
+  {% endfor %}
+  </ul>
+  <form action="/{{ relief_effort.id }}/post_item_request/" method="post">
+     {% csrf_token %}
+     {{ form.as_p }}
+     <input type="submit" value="Submit" />
+  </form>
+{% endblock %}

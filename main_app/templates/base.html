@@ -1,0 +1,17 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html>
+  <head>
+	<title>67k TeddyBears</title>
+  <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}"/>
+  </head>
+  <body>
+      <h1>67k TeddyBears</h1>
+      <hr />
+    {% block content %}
+    {% endblock %}
+    <footer>All Rights Reserved, 67k TeddyBears 2018</footer>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="{% static 'js/app.js' %}"></script>
+  </body>
+ </html>
