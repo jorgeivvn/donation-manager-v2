@@ -9,17 +9,18 @@ from .models import ItemRequest
 # Create your views here.
 
 def index(request):
+    return render(request, 'index.html')
+
+def relief_efforts_index(request):
     relief_efforts = ReliefEffort.objects.all()
     form = ReliefEffortForm()
-    return render(request, 'index.html', {'relief_efforts': relief_efforts, 'form': form})
+    return render(request, 'relief-efforts-index.html', {'relief_efforts': relief_efforts, 'form': form})
 
 def show(request, relief_effort_id):
     relief_effort = ReliefEffort.objects.get(id=relief_effort_id)
     ir = ItemRequest.objects.filter(relief_effort_id=relief_effort)
     form = ItemRequestForm()
     return render(request, 'specific-relief.html', {'relief_effort':relief_effort, 'form': form, 'ir':ir})
-
-
 
 def post_relief_effort(request):
     form = ReliefEffortForm(request.POST)
