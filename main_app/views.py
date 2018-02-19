@@ -11,6 +11,9 @@ from django.views.generic import CreateView
 def index(request):
     return render(request, 'index.html')
 
+def about(request):
+    return render(request, 'about.html')
+
 def relief_efforts_index(request):
     relief_efforts = ReliefEffort.objects.all()
     form = ReliefEffortForm()
