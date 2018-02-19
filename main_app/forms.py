@@ -13,5 +13,6 @@ class ItemRequestForm(forms.ModelForm):
         model = ItemRequest
         fields = ['name','desc']
 
-
-        
+class LoginForm(forms.Form):
+    email = forms.CharField(label="Email", max_length=254)
+    password = forms.CharField(widget=forms.PasswordInput())

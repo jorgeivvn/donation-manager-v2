@@ -1,10 +1,9 @@
 from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect
-from .forms import ReliefEffortForm
-from .forms import ItemRequestForm
-from .models import ReliefEffort
-from .models import ItemRequest
-
+from .forms import ReliefEffortForm, ItemRequestForm, LoginForm
+from .models import ReliefEffort, ItemRequest
+from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.models import User
 
 # Create your views here.
 
@@ -32,6 +31,26 @@ def post_relief_effort(request):
         )
         relief_effort.save()
     return HttpResponseRedirect('/')
+
+def login_view(request):
+    if request.method == 'POST':
+        # if post, then authenticate (user submitted username and password)
+        form = LoginForm(request.POST)
+        if form.is_valid():
+            e = form.cleaned_data['email']
+            p = form.cleaned_data['password']
+            user = authenticate(email = e, password = p)
+            if user is not None:
+                if user. is_active:
+                    login(request, user)
+                    return HttpResponseRedirect('/')
+                else:
+                    print("The account has been disabled.")
+            else:
+                print("The email and/or password is incorrect.")
+    else:
+        form = LoginForm()
+        return render(request, 'signup-login.html', {'form': form})
 
 def post_item_request(request, relief_effort_id):
     form = ItemRequestForm(request.POST)
