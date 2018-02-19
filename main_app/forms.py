@@ -67,3 +67,18 @@ class OrgAdminSignUpForm(UserCreationForm):
         org_admin.org_location.add(*self.cleaned_data.get('org_location'))
         org_admin.org_bio.add(*self.cleaned_data.get('org_bio'))
         return user
+
+
+class DonorSignUpForm(UserCreationForm):
+    location = forms.CharField(max_length=100)
+    class Meta(UserCreationForm.Meta):
+        model = User
+
+    @transaction.atomic
+    def save(self):
+        user = super().save(commit=False)
+        user.is_donor = True
+        user.save()
+        donor = Donor.objects.create(user=user)
+        donor.location.add(*self.cleaned_data.get('location'))
+        return user
