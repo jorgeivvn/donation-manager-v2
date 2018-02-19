@@ -1,9 +1,10 @@
 from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect
-from .forms import ReliefEffortForm, ItemRequestForm, LoginForm
-from .models import ReliefEffort, ItemRequest
+from .forms import ReliefEffortForm, ItemRequestForm, LoginForm, OrgAdminSignUpForm
+from .models import ReliefEffort, ItemRequest, User, OrgAdmin
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
+from django.views.generic import CreateView
 
 # Create your views here.
 
@@ -51,6 +52,30 @@ def login_view(request):
     else:
         form = LoginForm()
         return render(request, 'signup-login.html', {'form': form})
+
+
+def org_admin_signup(request):
+    form = OrgAdminSignUpForm()
+    return render(request, 'org-admin-signup.html', {'form': form})
+
+def post_org_admin_user(request):
+    form = OrgAdminSignUpForm(request.POST)
+    if form.is_valid():
+        user = User(
+            email=form.cleaned_data['email'],
+            password=form.cleaned_data['password'],
+            is_org_admin=True
+        )
+        user.save()
+        org_admin = OrgAdmin(
+            org_name=form.cleaned_data['org_name'],
+            org_location=form.cleaned_data['org_location'],
+            org_bio=form.cleaned_data['org_bio'],
+            user=user
+        )
+        org_admin.save()
+    return HttpResponseRedirect('/')
+
 
 def post_item_request(request, relief_effort_id):
     form = ItemRequestForm(request.POST)
