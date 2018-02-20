@@ -15,4 +15,5 @@ class DonorSignUpView(CreateView):
     def form_valid(self, form):
         user = form.save()
         login(self.request, user)
-        return redirect('/')
+        path = '/' + str(user.id) + '/donor-profile/'
+        return redirect(path)

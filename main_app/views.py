@@ -1,9 +1,8 @@
 from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect
 from .forms import ReliefEffortForm, ItemRequestForm, LoginForm, OrgAdminSignUpForm, DonorSignUpForm
-from .models import ReliefEffort, ItemRequest, User, OrgAdmin
+from .models import ReliefEffort, ItemRequest, User, OrgAdmin, Donor
 from django.contrib.auth import authenticate, login, logout
-from django.contrib.auth.models import User
 from django.views.generic import CreateView
 
 # Create your views here.
@@ -24,6 +23,16 @@ def show(request, relief_effort_id):
     ir = ItemRequest.objects.filter(relief_effort_id=relief_effort)
     form = ItemRequestForm()
     return render(request, 'specific-relief.html', {'relief_effort':relief_effort, 'form': form, 'ir':ir})
+
+def show_donor_profile(request, user_id):
+    user = User.objects.get(id=user_id)
+    donor = Donor.objects.filter(user=user)
+    return render(request, 'donor_profile.html', {'user': user, 'donor': donor})
+
+def show_org_admin_profile(request, user_id):
+    user = User.objects.get(id=user_id)
+    org_admin = OrgAdmin.objects.get(user=user)
+    return render(request, 'org_admin_profile.html', {'user': user, 'org_admin': org_admin})
 
 def post_relief_effort(request):
     form = ReliefEffortForm(request.POST)
@@ -55,6 +64,11 @@ def login_view(request):
     else:
         form = LoginForm()
         return render(request, 'signup-login.html', {'form': form})
+
+
+def logout_view(request):
+    logout(request)
+    return HttpResponseRedirect('/')
 
 
 def signup(request):

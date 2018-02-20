@@ -5,7 +5,7 @@
 
 <div class="jumbotron">
   <div class="container">
-    <h1 class="display-3">Welcome, back!</h1>
+    <h1 class="display-3">Welcome back, {{ user.first_name}}!</h1>
     <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui.</p>
     <p><a class="btn btn-primary btn-lg" href="#" role="button">Learn more &raquo;</a></p>
   </div>
@@ -25,7 +25,7 @@
         </div>
         <div class="col-lg-8 col-md-8 col-sm-12">
             <div class="user-name">
-                Jorge Rodriguez <span class="label label-success">Donor</span>
+                {{ user.first_name }} {{ user.last_name}} <span class="label label-success">Donor</span>
             </div>
             <div class="user-information">
                 <p>Helping this world out, one donation at a time!</p>
