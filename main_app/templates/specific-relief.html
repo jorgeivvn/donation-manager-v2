@@ -2,35 +2,61 @@
 {% load staticfiles %}
 
 {% block content %}
-  <p>Name: {{ relief_effort.name }}</p>
-  <p>Description: {{ relief_effort.desc }}</p>
-  <p>Location: {{ relief_effort.location }}</p>
-  <h5>Item Requests</h5>
-  <div class="currentNeeds">
-    <h3>Current Needs</h3>
-    <ul class"currentNeedsList">
-    {% for item in current_needs %}
-      <li>Name: {{ item.name }} Desc: {{ item.desc }} <button class="donationButton" id="itemRequest-{{item.id}}" >Donate Item</button></li>
-    {% endfor %}
-    </ul>
-  </div>
-  <div class="needsFulfilled">
-    <h3>Needs Fufilled</h3>
-    <ul class="needsFulfilledList">
-    {% for item in needs_fulfilled %}
-      <li>Name: {{ item.name }} Desc: {{ item.desc }}</li>
-    {% endfor %}
-    </ul>
-  </div>
-  {% if user.is_authenticated %}
-    {% if user.is_org_admin %}
+
       {% if currentUser == orgAdmin %}
-    <form action="/{{ relief_effort.id }}/post_item_request/" method="post">
+
+      <p>Name: {{ relief_effort.name }}</p>
+      <p>Description: {{ relief_effort.desc }}</p>
+      <p>Location: {{ relief_effort.location }}</p>
+      <h5>Item Requests</h5>
+      <div class="currentNeeds">
+        <h3>Current Needs</h3>
+        <ul class"currentNeedsList">
+        {% for item in current_needs %}
+          <li>Name: {{ item.name }} Desc: {{ item.desc }}
+            <button class="deleteButton" id="itemRequest-{{item.id}}-delete" >Delete Item</button>
+            <button class="updateButton" id="itemRequest-{{item.id}}-update" >Update Item</button>
+          </li>
+        {% endfor %}
+        </ul>
+      </div>
+      <div class="needsFulfilled">
+        <h3>Needs Fufilled</h3>
+        <ul class="needsFulfilledList">
+        {% for item in needs_fulfilled %}
+          <li>Name: {{ item.name }} Desc: {{ item.desc }}</li>
+        {% endfor %}
+        </ul>
+      </div>
+      <form action="/{{ relief_effort.id }}/post_item_request/" method="post">
        {% csrf_token %}
        {{ form.as_p }}
        <input type="submit" value="Submit" />
-    </form>
+     </form>
+      {% else %}
+
+      <p>Name: {{ relief_effort.name }}</p>
+      <p>Description: {{ relief_effort.desc }}</p>
+      <p>Location: {{ relief_effort.location }}</p>
+      <h5>Item Requests</h5>
+      <div class="currentNeeds">
+        <h3>Current Needs</h3>
+        <ul class"currentNeedsList">
+        {% for item in current_needs %}
+          <li>Name: {{ item.name }} Desc: {{ item.desc }} <button class="donationButton" id="itemRequest-{{item.id}}-donate" >Donate Item</button></li>
+        {% endfor %}
+        </ul>
+      </div>
+      <div class="needsFulfilled">
+        <h3>Needs Fufilled</h3>
+        <ul class="needsFulfilledList">
+        {% for item in needs_fulfilled %}
+          <li>Name: {{ item.name }} Desc: {{ item.desc }}</li>
+        {% endfor %}
+        </ul>
+      </div>
       {% endif %}
-    {% endif %}
-  {% endif %}
+
+
+
 {% endblock %}

@@ -103,3 +103,9 @@ def post_donate(request):
     item_request.is_fulfilled = True
     item_request.save()
     return HttpResponse("Fulfilled")
+
+def remove_item_request(request):
+    item_request_id = request.GET.get('item_request_id', None)
+    item_request = ItemRequest.objects.get(id=item_request_id)
+    item_request.delete()
+    return HttpResponse('Item deleted')
