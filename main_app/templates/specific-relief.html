@@ -10,7 +10,7 @@
     <h3>Current Needs</h3>
     <ul class"currentNeedsList">
     {% for item in current_needs %}
-      <li>Name: {{ item.name }} Desc: {{ item.desc }} <button id="itemRequest-{{item.id}}" >Donate Item</button></li>
+      <li>Name: {{ item.name }} Desc: {{ item.desc }} <button class="donationButton" id="itemRequest-{{item.id}}" >Donate Item</button></li>
     {% endfor %}
     </ul>
   </div>
@@ -22,10 +22,15 @@
     {% endfor %}
     </ul>
   </div>
-
-  <form action="/{{ relief_effort.id }}/post_item_request/" method="post">
-     {% csrf_token %}
-     {{ form.as_p }}
-     <input type="submit" value="Submit" />
-  </form>
+  {% if user.is_authenticated %}
+    {% if user.is_org_admin %}
+      {% if currentUser == orgAdmin %}
+    <form action="/{{ relief_effort.id }}/post_item_request/" method="post">
+       {% csrf_token %}
+       {{ form.as_p }}
+       <input type="submit" value="Submit" />
+    </form>
+      {% endif %}
+    {% endif %}
+  {% endif %}
 {% endblock %}

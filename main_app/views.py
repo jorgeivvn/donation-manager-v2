@@ -19,10 +19,15 @@ def relief_efforts_index(request):
 
 def show(request, relief_effort_id):
     relief_effort = ReliefEffort.objects.get(id=relief_effort_id)
+    orgAdmin = str(relief_effort.org_admin_id.user)
+    if request.user.is_anonymous:
+        currentUser = None
+    else:
+        currentUser = str(request.user.email)
     current_needs = ItemRequest.objects.filter(relief_effort_id=relief_effort, is_fulfilled=False)
     needs_fulfilled = ItemRequest.objects.filter(relief_effort_id=relief_effort, is_fulfilled=True)
     form = ItemRequestForm()
-    return render(request, 'specific-relief.html', {'relief_effort':relief_effort, 'form': form, 'current_needs': current_needs,'needs_fulfilled':needs_fulfilled})
+    return render(request, 'specific-relief.html', {'relief_effort':relief_effort, 'form': form, 'current_needs': current_needs,'needs_fulfilled':needs_fulfilled, 'orgAdmin':orgAdmin, 'currentUser':currentUser})
 
 def show_donor_profile(request, user_id):
     user = User.objects.get(id=user_id)
