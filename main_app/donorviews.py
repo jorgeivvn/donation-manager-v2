@@ -1,13 +1,13 @@
 from django.shortcuts import get_object_or_404, redirect, render
 from django.views.generic import CreateView, ListView, UpdateView
-from .forms import OrgAdminSignUpForm
-from .models import User, OrgAdmin
+from .forms import DonorSignUpForm
+from .models import User, Donor
 from django.contrib.auth import login
 
-class OrgAdminSignUpView(CreateView):
+class DonorSignUpView(CreateView):
     model = User
-    form_class = OrgAdminSignUpForm
-    template_name = 'org-admin-signup-v2.html'
+    form_class = DonorSignUpForm
+    template_name = 'donor-signup-v2.html'
 
     def get_context_data(self, **kwargs):
         return super().get_context_data(**kwargs)

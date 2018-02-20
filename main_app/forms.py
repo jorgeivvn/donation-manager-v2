@@ -1,5 +1,5 @@
 from django import forms
-from .models import ReliefEffort, User, ItemRequest, OrgAdmin
+from .models import ReliefEffort, User, ItemRequest, OrgAdmin, Donor
 from django.db import transaction
 from django.utils.translation import ugettext, ugettext_lazy as _
 
@@ -30,7 +30,7 @@ class UserCreationForm(forms.ModelForm):
 
     class Meta:
         model = User
-        fields = ("email",)
+        fields = ("email","first_name","last_name")
 
     def clean_password2(self):
         password1 = self.cleaned_data.get("password1")
@@ -44,16 +44,18 @@ class UserCreationForm(forms.ModelForm):
 
     def save(self, commit=True):
         user = super(UserCreationForm, self).save(commit=False)
-        user.set_password(self.cleaned_data["password1"])
+        user.set_password(self.cleaned_data['password1'])
         if commit:
             user.save()
         return user
 
 
 class OrgAdminSignUpForm(UserCreationForm):
-    org_name = forms.CharField(label="Organization Name", max_length=100)
-    org_location = forms.CharField(label="Organization Location", max_length=100)
-    org_bio = forms.CharField(label="Organization Bio", max_length=300)
+    # first_name = forms.CharField(label='First Name', max_length=30)
+    # last_name = forms.CharField(label='Last Name', max_length=30)
+    org_name = forms.CharField(label='Organization Name', max_length=100)
+    org_location = forms.CharField(label='Organization Location', max_length=100)
+    org_bio = forms.CharField(label='Organization Bio', max_length=300)
     class Meta(UserCreationForm.Meta):
         model = User
 
@@ -65,14 +67,16 @@ class OrgAdminSignUpForm(UserCreationForm):
         org_admin = OrgAdmin.objects.create(user=user)
         org_admin.org_name = self.cleaned_data.get('org_name')
         org_admin.org_location = self.cleaned_data.get('org_location')
-        org_admin.org_location = self.cleaned_data.get('org_bio')
-        # org_admin.org_name.add(*self.cleaned_data.get('org_name'))
-        # org_admin.org_location.add(*self.cleaned_data.get('org_location'))
-        # org_admin.org_bio.add(*self.cleaned_data.get('org_bio'))
+        org_admin.org_bio = self.cleaned_data.get('org_bio')
+        # org_admin.first_name = self.cleaned_data.get('first_name')
+        # org_admin.last_name = self.cleaned_data.get('last_name')
+        org_admin.save()
         return user
 
 
 class DonorSignUpForm(UserCreationForm):
+    # first_name = forms.CharField(label='First Name', max_length=30)
+    # last_name = forms.CharField(label='Last Name', max_length=30)
     location = forms.CharField(max_length=100)
     class Meta(UserCreationForm.Meta):
         model = User
@@ -83,5 +87,8 @@ class DonorSignUpForm(UserCreationForm):
         user.is_donor = True
         user.save()
         donor = Donor.objects.create(user=user)
-        donor.location.add(*self.cleaned_data.get('location'))
+        donor.location = self.cleaned_data['location']
+        # donor.first_name = self.cleaned_data['first_name']
+        # donor.last_name = self.cleaned_data['last_name']
+        donor.save()
         return user
