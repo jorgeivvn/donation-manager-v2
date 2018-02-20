@@ -39,6 +39,10 @@ $('.deleteButton').on('click', (event) => {
 $('.updateButton').on('click', (event) => {
   event.preventDefault();
   console.log('update button was clicked!')
+  currentName = event.target.parentNode.getElementsByClassName('itemName')[0].innerHTML
+  currentDesc = event.target.parentNode.getElementsByClassName('itemDesc')[0].innerHTML
+  console.log(currentName);
+  console.log(currentDesc);
   // let currentItemReq = event.target.parentNode
   // let currentButton = event.target
   // let itemRequestId = (event.target.id).split('-')[1]
