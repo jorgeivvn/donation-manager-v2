@@ -1,49 +1,73 @@
-# Heroku Django Starter Template
+# Donation Management System
 
-An utterly fantastic project starter template for Django 2.0.
+## MVP / Description
 
-## Features
+### An app that maximizes donations given in the event of a catastrophe to prevent a surplus of supplies.
 
-- Production-ready configuration for Static Files, Database Settings, Gunicorn, etc.
-- Enhancements to Django's static file serving functionality via WhiteNoise.
-- Latest Python 3.6 runtime environment.
+## Motivation
 
-## How to Use
+"Humanitarian workers call the crush of useless, often incomprehensible contributions "the second disaster."" - (https://www.cbsnews.com/news/best-intentions-when-disaster-relief-brings-anything-but-relief/)
 
-To use this project, follow these steps:
+""People still have that opportunity to choose what it is they're purchasing, so they're not just giving money to an amorphous, unidentifiable pool," says Feder."
 
-1. Create your working environment.
-2. Install Django (`$ pipenv install django`)
-3. Create a new project using this template
+"Part of what people are doing is they're helping, they're trying to help. What we need to figure out is how to effectively handle that," O'Hara says.
+- (https://www.npr.org/2013/01/09/168946170/thanks-but-no-thanks-when-post-disaster-donations-overwhelm)
 
-## Creating Your Project
+## Link to Project Trello:
 
-Using this template to create a new Django app is easy::
+https://trello.com/b/I0vZ8yPP/project-4-planning
 
-    $ django-admin.py startproject --template=https://github.com/heroku/heroku-django-template/archive/master.zip --name=Procfile helloworld
+## Technologies Used
 
-(If this doesn't work on windows, replace `django-admin.py` with `django-admin`)
+- Python
+- Django
+- Postgres
+- Javascript and jQuery
+- Bootstrap
+- HTML
+- CSS
 
-You can replace ``helloworld`` with your desired project name.
-
-## Deployment to Heroku
-
-    $ git init
-    $ git add -A
-    $ git commit -m "Initial commit"
-
-    $ heroku create
-    $ git push heroku master
-
-    $ heroku run python manage.py migrate
-
-See also, a [ready-made application](https://github.com/heroku/python-getting-started), ready to deploy.
+## Wireframes
 
 
-## License: MIT
+### Prototype National Map Screen
 
-## Further Reading
 
-- [Gunicorn](https://warehouse.python.org/project/gunicorn/)
-- [WhiteNoise](https://warehouse.python.org/project/whitenoise/)
-- [dj-database-url](https://warehouse.python.org/project/dj-database-url/)
+![Prototype National Map Screen](https://github.com/LillianChernin/donation-management-system/blob/master/docs/assets/images/national-map-view.png)
+
+
+### Prototype Charity Relief Efforts Screen
+
+
+![Prototype Charity Relief Efforts Home Screen](https://github.com/LillianChernin/donation-management-system/blob/master/docs/assets/images/charity-view.png)
+
+
+### Prototype Single Relief Effort Screen
+
+
+![Prototype Single Relief Effort Screen](https://github.com/LillianChernin/donation-management-system/blob/master/docs/assets/images/donate-view.png)
+
+
+### Prototype Create Relief Effort Screen
+
+
+![Prototype Create Relief Effort Screen](https://github.com/LillianChernin/donation-management-system/blob/master/docs/assets/images/create-relief-effort.png)
+
+
+
+## Entity Relationship Diagram
+
+![Entity Relationship Diagram](https://github.com/LillianChernin/donation-management-system/blob/master/docs/assets/images/erd.png)
+
+
+## Example Routes
+
+![Example Routes](https://github.com/LillianChernin/donation-management-system/blob/master/docs/assets/images/example-routes.png)
+
+
+## User Stories
+
+- As an orgAdmin user, I should be able to create a relief effort with resources listed on it.
+- As an orgAdmin user, I should be able to update (add, delete, update) resources on a relief effort.
+- As a donor, I should be able to look at a relief effort and see what resources are still needed.
+- As a donor, I should be able to fulfill resource needs and see the relief effort page update.
