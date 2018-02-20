@@ -6,11 +6,23 @@
   <p>Description: {{ relief_effort.desc }}</p>
   <p>Location: {{ relief_effort.location }}</p>
   <h5>Item Requests</h5>
-  <ul>
-  {% for item in ir %}
-    <li>Name: {{ item.name }} Desc: {{ item.desc }} <button id="itemRequest-{{item.id}}" >Donate Item</button></li>
-  {% endfor %}
-  </ul>
+  <div class="currentNeeds">
+    <h3>Current Needs</h3>
+    <ul class"currentNeedsList">
+    {% for item in current_needs %}
+      <li>Name: {{ item.name }} Desc: {{ item.desc }} <button id="itemRequest-{{item.id}}" >Donate Item</button></li>
+    {% endfor %}
+    </ul>
+  </div>
+  <div class="needsFulfilled">
+    <h3>Needs Fufilled</h3>
+    <ul class="needsFulfilledList">
+    {% for item in needs_fulfilled %}
+      <li>Name: {{ item.name }} Desc: {{ item.desc }}</li>
+    {% endfor %}
+    </ul>
+  </div>
+
   <form action="/{{ relief_effort.id }}/post_item_request/" method="post">
      {% csrf_token %}
      {{ form.as_p }}
