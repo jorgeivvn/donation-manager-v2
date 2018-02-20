@@ -1,7 +1,7 @@
 from django.conf.urls import url
 from .views import index, post_relief_effort, show, post_item_request, relief_efforts_index
 from .views import login_view, signup, about, show_donor_profile, show_org_admin_profile
-from .views import logout_view
+from .views import logout_view, post_donate
 from .orgadminviews import OrgAdminSignUpView
 from .donorviews import DonorSignUpView
 
@@ -15,6 +15,7 @@ urlpatterns = [
     url(r'^donor_signup/$', DonorSignUpView.as_view(), name='donor_signup'),
     url(r'^signup/$', signup, name="signup"),
     url(r'^about/$', about, name="about"),
+    url(r'^post_donate/$', post_donate, name="post_donate"),
     url(r'^([0-9]+)/$', show, name = 'show'),
     url(r'^([0-9]+)/post_item_request/$', post_item_request, name = 'post_item_request'),
     url(r'^([0-9]+)/donor-profile/$', show_donor_profile, name = 'show_donor_profile'),

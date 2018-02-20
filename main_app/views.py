@@ -90,3 +90,10 @@ def post_item_request(request, relief_effort_id):
         item_request.save()
         path = '/' + str(relief_effort_id) + '/'
     return HttpResponseRedirect(path)
+
+def post_donate(request):
+    item_request_id = request.GET.get('item_request_id', None)
+    item_request = ItemRequest.objects.get(id=item_request_id)
+    item_request.is_fulfilled = True
+    item_request.save()
+    return HttpResponse("Fulfilled")
