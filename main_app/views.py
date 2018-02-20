@@ -15,8 +15,7 @@ def about(request):
 
 def relief_efforts_index(request):
     relief_efforts = ReliefEffort.objects.all()
-    form = ReliefEffortForm()
-    return render(request, 'relief-efforts-index.html', {'relief_efforts': relief_efforts, 'form': form})
+    return render(request, 'relief-efforts-index.html', {'relief_efforts': relief_efforts})
 
 def show(request, relief_effort_id):
     relief_effort = ReliefEffort.objects.get(id=relief_effort_id)
@@ -32,18 +31,23 @@ def show_donor_profile(request, user_id):
 def show_org_admin_profile(request, user_id):
     user = User.objects.get(id=user_id)
     org_admin = OrgAdmin.objects.get(user=user)
-    return render(request, 'org_admin_profile.html', {'user': user, 'org_admin': org_admin})
+    relief_efforts = ReliefEffort.objects.filter(org_admin_id=org_admin)
+    form = ReliefEffortForm()
+    return render(request, 'org_admin_profile.html', {'user': user, 'org_admin': org_admin, 'form': form, 'user_id':user_id, 'relief_efforts':relief_efforts})
 
 def post_relief_effort(request):
     form = ReliefEffortForm(request.POST)
+    org_admin = OrgAdmin.objects.get(user=request.user)
     if form.is_valid():
         relief_effort = ReliefEffort(
             name=form.cleaned_data['name'],
             desc=form.cleaned_data['desc'],
             location=form.cleaned_data['location']
         )
+        relief_effort.org_admin_id = org_admin
         relief_effort.save()
-    return HttpResponseRedirect('/')
+        path = '/' + str(request.user.id) + '/org-admin-profile/'
+    return HttpResponseRedirect(path)
 
 def login_view(request):
     if request.method == 'POST':

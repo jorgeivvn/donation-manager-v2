@@ -8,4 +8,18 @@
     <p><a class="btn btn-primary btn-lg" href="#" role="button">Learn more &raquo;</a></p>
   </div>
 </div>
+{% if user.is_authenticated %}
+  {% if user.is_org_admin %}
+  <form action="/post_url/" method="post">
+     {% csrf_token %}
+     {{ form.as_p }}
+     <input type="submit" value="Create Relief Effort" />
+  </form>
+  {% endif %}
+{% endif %}
+{% for relief_effort in relief_efforts %}
+  <a href="/{{relief_effort.id}}">
+    <p>Name: {{ relief_effort.name }}</p>
+  </a>
+{% endfor %}
 {% endblock %}
