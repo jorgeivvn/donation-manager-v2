@@ -7,7 +7,7 @@ from django.contrib.auth import login
 class OrgAdminSignUpView(CreateView):
     model = User
     form_class = OrgAdminSignUpForm
-    template_name = 'org-admin-signup-v2.html'
+    template_name = 'org-admin-signup.html'
 
     def get_context_data(self, **kwargs):
         return super().get_context_data(**kwargs)

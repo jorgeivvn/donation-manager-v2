@@ -7,7 +7,7 @@ from django.contrib.auth import login
 class DonorSignUpView(CreateView):
     model = User
     form_class = DonorSignUpForm
-    template_name = 'donor-signup-v2.html'
+    template_name = 'donor-signup.html'
 
     def get_context_data(self, **kwargs):
         return super().get_context_data(**kwargs)

@@ -60,34 +60,6 @@ def login_view(request):
 def signup(request):
     return render(request, 'signup.html')
 
-# def org_admin_signup(request):
-#     form = OrgAdminSignUpForm()
-#     return render(request, 'org-admin-signup.html', {'form': form})
-#
-# def donor_signup(request):
-#     form = DonorSignUpForm()
-#     return render(request, 'donor-signup.html', {'form': form})
-
-
-# def post_org_admin_user(request):
-#     form = OrgAdminSignUpForm(request.POST)
-#     if form.is_valid():
-#         user = User(
-#             email=form.cleaned_data['email'],
-#             password=form.cleaned_data['password1'],
-#         )
-#         user.is_org_admin = True
-#         user.save()
-#         org_admin = OrgAdmin(
-#             org_name=form.cleaned_data['org_name'],
-#             org_location=form.cleaned_data['org_location'],
-#             org_bio=form.cleaned_data['org_bio'],
-#             user=user
-#         )
-#         org_admin.save()
-#     return HttpResponseRedirect('/')
-
-
 def post_item_request(request, relief_effort_id):
     form = ItemRequestForm(request.POST)
     relief_effort = ReliefEffort.objects.get(id=relief_effort_id)
