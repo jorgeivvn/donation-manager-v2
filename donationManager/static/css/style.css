@@ -26,6 +26,16 @@ footer .container-fluid {
 #rightsReserved {
   color: white;
 }
+.jumbotron {
+  background-image: url("https://i.imgur.com/OWxay9O.jpg");
+  background-size: 100%;
+  background-position: 25% 50%;
+  background-repeat: no-repeat;
+  color: white !important;
+}
+.jumbotron .container {
+  opacity: 0.8;
+}
 
 ul.nav li a, ul.nav li a:visited {
     color: white !important;
