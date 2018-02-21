@@ -33,9 +33,7 @@
        {{ form.as_p }}
        <input type="submit" value="Submit" />
      </form>
-     <button>
-      <a class="twitter-share-button" href="https://twitter.com/intent/tweet?text=Please%20donate%20to%20the%20{{tweet_text}}&hashtags=67kTeddyBear,GiveToLive">Tweet your Relief Effort!</a>
-     </button>
+      <a class="btn btn-primary btn-md" href="https://twitter.com/intent/tweet?text=Please%20donate%20to%20the%20{{tweet_text}}&hashtags=67kTeddyBear,GiveToLive">Tweet your Relief Effort!</a>
       {% else %}
       <p>Name: {{ relief_effort.name }}</p>
       <p>Description: {{ relief_effort.desc }}</p>
