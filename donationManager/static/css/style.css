@@ -2,14 +2,14 @@ body {
   height: 1500px;
 }
 header .container-fluid {
-  background-color: #E55239;
+  background-color: #FF5653;
   display: flex;
   justify-content: space-between;
   flex-wrap: wrap;
   align-items: flex-end;
 }
 footer .container-fluid {
-  background-color: #E55239;
+  background-color: #FF5653;
   display: flex;
   align-items: center;
   flex-direction: column;
@@ -46,4 +46,44 @@ ul.nav li a, ul.nav li a:visited {
 }
 ul.nav li a:hover, ul.nav li a:active {
     color: blue !important;
+}
+
+.login-form-container {
+  /*border: 2px solid #FF5653;*/
+  background-color: #FF5653;
+  padding: 80px 80px;
+  margin: 150px auto;
+  width: 30%;
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  font-family: 'Roboto', sans-serif;
+}
+
+.login-form-container p {
+  font-size: 20px;
+  color: white;
+}
+
+.login-form-container h1 {
+  font-size: 40px;
+  color: white;
+}
+
+#sign-up-btn {
+  color: white !important;
+}
+
+.signup-container {
+  display: flex;
+  flex-direction: column;
+  border: 2px solid #FF5653;
+  padding: 80px 80px;
+  margin: 200px auto;
+  width: 30%;
+  background-color: #FF5653;
+}
+
+.signup-container a {
+  color: white;
 }

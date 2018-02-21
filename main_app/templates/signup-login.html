@@ -2,13 +2,14 @@
 {% load staticfiles %}
 
 {% block content %}
-<h1>Login</h1>
-<form method="POST" action=".">
-  {% csrf_token %}
-  {{ form.as_p}}
-  <input type="submit" value="Submit" />
-</form>
-
-<p>Don't have an account? </p>
-<button><a href="/signup">Sign Up Here</a></button>
+<div class="login-form-container">
+  <h1>Login</h1>
+  <form method="POST" action=".">
+    {% csrf_token %}
+    {{ form.as_p}}
+    <button type="submit" class="btn btn-primary" value="Submit">Submit</button>
+  </form>
+  <p>Don't have an account? </p>
+  <button class="btn btn-primary"><a id="sign-up-btn" href="/signup">Sign Up Here</a></button>
+</div>
 {% endblock %}
