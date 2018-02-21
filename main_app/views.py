@@ -50,9 +50,13 @@ def show(request, relief_effort_id):
     tweet_text = string_spacer.join(split_text)
     current_needs = ItemRequest.objects.filter(relief_effort_id=relief_effort, is_fulfilled=False)
     needs_fulfilled = ItemRequest.objects.filter(relief_effort_id=relief_effort, is_fulfilled=True)
+    if len(current_needs) > 0 or len(needs_fulfilled) > 0:
+        percentage_fulfilled = round(((len(needs_fulfilled) / (len(needs_fulfilled) + len(current_needs))) * 100), 2)
+    else:
+        percentage_fulfilled = None;
     form_list = []
     create_form = ItemRequestForm()
-    return render(request, 'specific-relief.html', {'relief_effort':relief_effort, 'create_form': create_form, 'current_needs': current_needs,'needs_fulfilled':needs_fulfilled, 'orgAdmin':orgAdmin, 'currentUser':currentUser, 'tweet_text': tweet_text})
+    return render(request, 'specific-relief.html', {'relief_effort':relief_effort, 'create_form': create_form, 'current_needs': current_needs,'needs_fulfilled':needs_fulfilled, 'orgAdmin':orgAdmin, 'currentUser':currentUser, 'tweet_text': tweet_text, 'percentage_fulfilled': percentage_fulfilled})
 
 def show_donor_profile(request, user_id):
     user = User.objects.get(id=user_id)
@@ -142,4 +146,14 @@ def update_item_request(request, item_request_id):
         item_request.name = form.cleaned_data['name']
         item_request.desc = form.cleaned_data['desc']
         item_request.save()
+    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+
+def update_relief_effort(request, relief_effort_id):
+    form = ReliefEffortForm(request.POST)
+    if form.is_valid():
+        relief_effort = ReliefEffort.objects.get(id=relief_effort_id)
+        relief_effort.name = form.cleaned_data['name']
+        relief_effort.desc = form.cleaned_data['desc']
+        relief_effort.location = form.cleaned_data['location']
+        relief_effort.save()
     return HttpResponseRedirect(request.META.get('HTTP_REFERER'))

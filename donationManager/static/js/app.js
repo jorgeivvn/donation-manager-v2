@@ -67,16 +67,29 @@ $('.cancelEditItemReqButton').on('click', (event) => {
 })
 
 $('.editReliefEffortDetailsButton').on('click', (event) => {
+  // make cancel edit button visible and hide edit button
   event.target.parentNode.childNodes[9].style.display = null;
   event.target.style.display = "none";
-  updateForm = event.target.parentNode.childNodes[11].style.display
+  // make edit form appear on page
+  let updateForm = event.target.parentNode.childNodes[11]
   updateForm.style.display = null;
   console.log(event.target.parentNode.childNodes)
 })
 
 $('.cancelEditReliefEffortDetailsButton').on('click', (event) => {
   console.log(event.target.parentNode.childNodes)
-  let currentName = event.target.parentNode.getElementsByClassName('itemName')[0];
-  let currentDesc = event.target.parentNode.getElementsByClassName('itemDesc')[0];
+  let currentName = event.target.parentNode.getElementsByClassName('reliefEffortName')[0];
+  let currentDesc = event.target.parentNode.getElementsByClassName('reliefEffortDesc')[0];
+  let currentLocation = event.target.parentNode.getElementsByClassName('reliefEffortLocation')[0];
   let editButton = event.target.parentNode.getElementsByClassName('editReliefEffortDetailsButton')[0];
+  let nameInputBox = event.target.parentNode.getElementsByClassName('id_name')[0];
+  let descInputBox = event.target.parentNode.getElementsByClassName('id_desc')[0];
+  let locationInputBox = event.target.parentNode.getElementsByClassName('id_location')[0];
+  nameInputBox.value = currentName.innerHTML;
+  descInputBox.value = currentDesc.innerHTML;
+  locationInputBox.value = currentLocation.innerHTML;
+  let updateForm = event.target.parentNode.childNodes[11]
+  event.target.parentNode.childNodes[7].style.display = null;
+  event.target.style.display = 'none';
+  updateForm.style.display = 'none';
 })
