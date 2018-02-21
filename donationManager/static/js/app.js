@@ -65,3 +65,18 @@ $('.cancelEditItemReqButton').on('click', (event) => {
   event.target.style.display = 'none';
   editButton.style.display = null;
 })
+
+$('.editReliefEffortDetailsButton').on('click', (event) => {
+  event.target.parentNode.childNodes[9].style.display = null;
+  event.target.style.display = "none";
+  updateForm = event.target.parentNode.childNodes[11].style.display
+  updateForm.style.display = null;
+  console.log(event.target.parentNode.childNodes)
+})
+
+$('.cancelEditReliefEffortDetailsButton').on('click', (event) => {
+  console.log(event.target.parentNode.childNodes)
+  let currentName = event.target.parentNode.getElementsByClassName('itemName')[0];
+  let currentDesc = event.target.parentNode.getElementsByClassName('itemDesc')[0];
+  let editButton = event.target.parentNode.getElementsByClassName('editReliefEffortDetailsButton')[0];
+})
