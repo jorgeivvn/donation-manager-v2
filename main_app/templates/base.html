@@ -28,6 +28,11 @@
                    <li><a href='/{{ user.id }}/org-admin-profile'>Profile</a></li>
                  {% endif %}
              {% endif %}
+             {% if not user.is_authenticated %}
+             <li><a href="/signup_login">Sign Up/Login</a></li>
+             {% else %}
+             <li><a href='/logout'>Logout</a></li>
+             {% endif %}
            </ul>
          </div>
        </nav>
@@ -40,22 +45,6 @@
      <footer>
        <nav class="navbar navbar-inverse navbar-fixed-bottom">
          <div class="container-fluid">
-           <ul class="nav navbar-nav">
-             {% if not user.is_authenticated %}
-             <li><a href="/signup_login">Sign Up/Login</a></li>
-             {% else %}
-             <li><a href='/logout'>Logout</a></li>
-             {% endif %}
-             {% if user.is_authenticated %}
-                 {% if user.is_donor %}
-                   <li>Hello, <a href='/{{ user.id }}/donor-profile'>{{ user.first_name }}!</a></li>
-                 {% elif user.is_org_admin %}
-                   <li>Hello, <a href='/{{ user.id }}/org-admin-profile'>{{ user.first_name}}!</a></li>
-                 {% else %}
-                   <li>Hello, {{ user.first_name }}!</li>
-                 {% endif %}
-             {% endif %}
-           </ul>
            <span id="rightsReserved">All rights reserved, 67kTeddyBear 2018</span>
          </div>
        </nav>
