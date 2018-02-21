@@ -26,7 +26,7 @@ def index(request):
         second_article = relief_efforts[len(relief_efforts) - 2]
         third_article = relief_efforts[len(relief_efforts) - 3]
         fourth_article = relief_efforts[len(relief_efforts) - 4]
-        {'first_article': first_article, 'second_article': second_article, 'third_article': third_article, 'fourth_article': fourth_article}
+        return render(request, 'index.html', {'first_article': first_article, 'second_article': second_article, 'third_article': third_article, 'fourth_article': fourth_article})
     else:
         return render(request, 'index.html')
 
