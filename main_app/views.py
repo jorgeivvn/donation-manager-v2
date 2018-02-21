@@ -9,11 +9,27 @@ from django.views.generic import CreateView
 
 def index(request):
     relief_efforts = ReliefEffort.objects.all()
-    first_article = relief_efforts[len(relief_efforts) - 1]
-    second_article = relief_efforts[len(relief_efforts) - 2]
-    third_article = relief_efforts[len(relief_efforts) - 3]
-    fourth_article = relief_efforts[len(relief_efforts) - 4]
-    return render(request, 'index.html', {'relief_efforts': relief_efforts, 'first_article': first_article, 'second_article': second_article, 'third_article': third_article, 'fourth_article': fourth_article})
+    if len(relief_efforts) == 1:
+        first_article = relief_efforts[len(relief_efforts) - 1]
+        return render(request, 'index.html', {'first_article': first_article})
+    elif len(relief_efforts) == 2:
+        first_article = relief_efforts[len(relief_efforts) - 1]
+        second_article = relief_efforts[len(relief_efforts) - 2]
+        return render(request, 'index.html', {'first_article': first_article, 'second_article': second_article})
+    elif len(relief_efforts) == 3:
+        first_article = relief_efforts[len(relief_efforts) - 1]
+        second_article = relief_efforts[len(relief_efforts) - 2]
+        third_article = relief_efforts[len(relief_efforts) - 3]
+        return render(request, 'index.html', {'first_article': first_article, 'second_article': second_article, 'third_article': third_article})
+    elif len(relief_efforts) > 3:
+        first_article = relief_efforts[len(relief_efforts) - 1]
+        second_article = relief_efforts[len(relief_efforts) - 2]
+        third_article = relief_efforts[len(relief_efforts) - 3]
+        fourth_article = relief_efforts[len(relief_efforts) - 4]
+        {'first_article': first_article, 'second_article': second_article, 'third_article': third_article, 'fourth_article': fourth_article}
+    else:
+        return render(request, 'index.html')
+
 
 def about(request):
     return render(request, 'about.html')
@@ -34,8 +50,9 @@ def show(request, relief_effort_id):
     tweet_text = string_spacer.join(split_text)
     current_needs = ItemRequest.objects.filter(relief_effort_id=relief_effort, is_fulfilled=False)
     needs_fulfilled = ItemRequest.objects.filter(relief_effort_id=relief_effort, is_fulfilled=True)
-    form = ItemRequestForm()
-    return render(request, 'specific-relief.html', {'relief_effort':relief_effort, 'form': form, 'current_needs': current_needs,'needs_fulfilled':needs_fulfilled, 'orgAdmin':orgAdmin, 'currentUser':currentUser, 'tweet_text': tweet_text})
+    form_list = []
+    create_form = ItemRequestForm()
+    return render(request, 'specific-relief.html', {'relief_effort':relief_effort, 'create_form': create_form, 'current_needs': current_needs,'needs_fulfilled':needs_fulfilled, 'orgAdmin':orgAdmin, 'currentUser':currentUser, 'tweet_text': tweet_text})
 
 def show_donor_profile(request, user_id):
     user = User.objects.get(id=user_id)
@@ -118,12 +135,11 @@ def remove_item_request(request):
     item_request.delete()
     return HttpResponse('Item deleted')
 
-def update_item_request(request):
-    item_request_id = request.GET.get('item_request_id', None)
-    updated_item_name = request.GET.get('udpatedName', None)
-    udpated_item_desc = request.GET.get('updatedDesc', None)
-    item_request = ItemRequest.objects.get(id=item_request_id)
-    item_request.name = updated_item_name
-    item_request.desc = updated_item_desc
-    item_request.save()
-    return HttpResponse(item_request)
+def update_item_request(request, item_request_id):
+    form = ItemRequestForm(request.POST)
+    if form.is_valid():
+        item_request = ItemRequest.objects.get(id=item_request_id)
+        item_request.name = form.cleaned_data['name']
+        item_request.desc = form.cleaned_data['desc']
+        item_request.save()
+    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
