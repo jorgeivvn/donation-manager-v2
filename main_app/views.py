@@ -8,7 +8,12 @@ from django.views.generic import CreateView
 # Create your views here.
 
 def index(request):
-    return render(request, 'index.html')
+    relief_efforts = ReliefEffort.objects.all()
+    first_article = relief_efforts[len(relief_efforts) - 1]
+    second_article = relief_efforts[len(relief_efforts) - 2]
+    third_article = relief_efforts[len(relief_efforts) - 3]
+    fourth_article = relief_efforts[len(relief_efforts) - 4]
+    return render(request, 'index.html', {'relief_efforts': relief_efforts, 'first_article': first_article, 'second_article': second_article, 'third_article': third_article, 'fourth_article': fourth_article})
 
 def about(request):
     return render(request, 'about.html')
