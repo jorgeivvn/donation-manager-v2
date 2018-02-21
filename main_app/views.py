@@ -109,3 +109,13 @@ def remove_item_request(request):
     item_request = ItemRequest.objects.get(id=item_request_id)
     item_request.delete()
     return HttpResponse('Item deleted')
+
+def update_item_request(request):
+    item_request_id = request.GET.get('item_request_id', None)
+    updated_item_name = request.GET.get('udpatedName', None)
+    udpated_item_desc = request.GET.get('updatedDesc', None)
+    item_request = ItemRequest.objects.get(id=item_request_id)
+    item_request.name = updated_item_name
+    item_request.desc = updated_item_desc
+    item_request.save()
+    return HttpResponse(item_request)

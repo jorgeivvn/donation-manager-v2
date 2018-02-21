@@ -15,7 +15,7 @@
         {% for item in current_needs %}
           <li>Name: <span class="itemName">{{ item.name }}</span> Desc: <span class="itemDesc">{{ item.desc }}</span>
             <button class="deleteButton" id="itemRequest-{{item.id}}-delete" >Delete Item</button>
-            <button class="updateButton" id="itemRequest-{{item.id}}-update" >Update Item</button>
+            <button class="editItemReqButton" id="itemRequest-{{item.id}}-edit" >Edit Item</button>
           </li>
         {% endfor %}
         </ul>
