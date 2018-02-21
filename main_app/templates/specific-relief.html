@@ -13,10 +13,25 @@
         <h3>Current Needs</h3>
         <ul class"currentNeedsList">
         {% for item in current_needs %}
+        <div class="singleItemReq">
           <li>Name: <span class="itemName">{{ item.name }}</span> Desc: <span class="itemDesc">{{ item.desc }}</span>
             <button class="deleteButton" id="itemRequest-{{item.id}}-delete" >Delete Item</button>
             <button class="editItemReqButton" id="itemRequest-{{item.id}}-edit" >Edit Item</button>
+            <button style="display: none" class="cancelEditItemReqButton" id="itemRequest-{{item.id}}-cancel">Cancel Edit</button>
           </li>
+          <form style="display: none"action="/{{ item.id }}/update_item_request/" method="post">
+           {% csrf_token %}
+           <p>
+             <label for="id_name">Name:</label>
+             <input value="{{item.name}}" type="text" name="name" maxlength="40" required id="id_name" class="id_name">
+           </p>
+           <p>
+             <label for="id_desc">Desc:</label>
+             <input value="{{item.desc}}" type="text" name="desc" maxlength="100" required id="id_desc" class="id_desc">
+           </p>
+           <input type="submit" value="Save Changes" />
+          </form>
+        </div>
         {% endfor %}
         </ul>
       </div>
@@ -30,7 +45,7 @@
       </div>
       <form action="/{{ relief_effort.id }}/post_item_request/" method="post">
        {% csrf_token %}
-       {{ form.as_p }}
+       {{ create_form.as_p }}
        <input type="submit" value="Submit" />
      </form>
       <a class="btn btn-primary btn-md" href="https://twitter.com/intent/tweet?text=Please%20donate%20to%20the%20{{tweet_text}}&hashtags=67kTeddyBear,GiveToLive">Tweet your Relief Effort!</a>

@@ -1,7 +1,7 @@
 from django.shortcuts import get_object_or_404, redirect, render
 from django.views.generic import CreateView, ListView, UpdateView
 from .forms import OrgAdminSignUpForm
-from .models import User, OrgAdmin
+from .models import User, OrgAdmin, ItemRequest
 from django.contrib.auth import login
 
 class OrgAdminSignUpView(CreateView):
