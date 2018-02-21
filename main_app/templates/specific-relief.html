@@ -3,6 +3,9 @@
 
 {% block content %}
   <div class="reliefEffortContentBox" style="margin: 20px; padding: 70px 50px 50px 50px;">
+    {% if not percentage_fulfilled == None %}
+    <h2>{{ percentage_fulfilled }}% of Needs Met</h2>
+    {% endif %}
       {% if currentUser == orgAdmin %}
       <div class="reliefEffortDetailsBox">
         <h1 class="reliefEffortName">{{ relief_effort.name }}</h1>

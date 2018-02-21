@@ -50,9 +50,13 @@ def show(request, relief_effort_id):
     tweet_text = string_spacer.join(split_text)
     current_needs = ItemRequest.objects.filter(relief_effort_id=relief_effort, is_fulfilled=False)
     needs_fulfilled = ItemRequest.objects.filter(relief_effort_id=relief_effort, is_fulfilled=True)
+    if len(current_needs) > 0 or len(needs_fulfilled) > 0:
+        percentage_fulfilled = round(((len(needs_fulfilled) / (len(needs_fulfilled) + len(current_needs))) * 100), 2)
+    else:
+        percentage_fulfilled = None;
     form_list = []
     create_form = ItemRequestForm()
-    return render(request, 'specific-relief.html', {'relief_effort':relief_effort, 'create_form': create_form, 'current_needs': current_needs,'needs_fulfilled':needs_fulfilled, 'orgAdmin':orgAdmin, 'currentUser':currentUser, 'tweet_text': tweet_text})
+    return render(request, 'specific-relief.html', {'relief_effort':relief_effort, 'create_form': create_form, 'current_needs': current_needs,'needs_fulfilled':needs_fulfilled, 'orgAdmin':orgAdmin, 'currentUser':currentUser, 'tweet_text': tweet_text, 'percentage_fulfilled': percentage_fulfilled})
 
 def show_donor_profile(request, user_id):
     user = User.objects.get(id=user_id)
