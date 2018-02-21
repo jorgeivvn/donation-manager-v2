@@ -9,11 +9,27 @@ from django.views.generic import CreateView
 
 def index(request):
     relief_efforts = ReliefEffort.objects.all()
-    first_article = relief_efforts[len(relief_efforts) - 1]
-    second_article = relief_efforts[len(relief_efforts) - 2]
-    third_article = relief_efforts[len(relief_efforts) - 3]
-    fourth_article = relief_efforts[len(relief_efforts) - 4]
-    return render(request, 'index.html', {'relief_efforts': relief_efforts, 'first_article': first_article, 'second_article': second_article, 'third_article': third_article, 'fourth_article': fourth_article})
+    if len(relief_efforts) == 1:
+        first_article = relief_efforts[len(relief_efforts) - 1]
+        return render(request, 'index.html', {'first_article': first_article})
+    elif len(relief_efforts) == 2:
+        first_article = relief_efforts[len(relief_efforts) - 1]
+        second_article = relief_efforts[len(relief_efforts) - 2]
+        return render(request, 'index.html', {'first_article': first_article, 'second_article': second_article})
+    elif len(relief_efforts) == 3:
+        first_article = relief_efforts[len(relief_efforts) - 1]
+        second_article = relief_efforts[len(relief_efforts) - 2]
+        third_article = relief_efforts[len(relief_efforts) - 3]
+        return render(request, 'index.html', {'first_article': first_article, 'second_article': second_article, 'third_article': third_article})
+    elif len(relief_efforts) > 3:
+        first_article = relief_efforts[len(relief_efforts) - 1]
+        second_article = relief_efforts[len(relief_efforts) - 2]
+        third_article = relief_efforts[len(relief_efforts) - 3]
+        fourth_article = relief_efforts[len(relief_efforts) - 4]
+        {'first_article': first_article, 'second_article': second_article, 'third_article': third_article, 'fourth_article': fourth_article}
+    else:
+        return render(request, 'index.html')
+
 
 def about(request):
     return render(request, 'about.html')
@@ -125,5 +141,5 @@ def update_item_request(request):
     item_request = ItemRequest.objects.get(id=item_request_id)
     item_request.name = updated_item_name
     item_request.desc = updated_item_desc
-    item_request.save()
+    item_request.save(update_fields=['name','desc'])
     return HttpResponse(item_request)
