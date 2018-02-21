@@ -2,19 +2,38 @@
 {% load staticfiles %}
 
 {% block content %}
-
+  <div class="reliefEffortContentBox" style="margin: 20px; padding: 70px 50px 50px 50px;">
       {% if currentUser == orgAdmin %}
-
-      <p>Name: {{ relief_effort.name }}</p>
-      <p>Description: {{ relief_effort.desc }}</p>
-      <p>Location: {{ relief_effort.location }}</p>
-      <h5>Item Requests</h5>
+      <div class="reliefEffortDetailsBox">
+        <h1 class="reliefEffortName">{{ relief_effort.name }}</h1>
+        <p>Description: <span class="reliefEffortDesc">{{ relief_effort.desc }}</span></p>
+        <p><span style="font-weight: bold">Location: </span><span class="reliefEffortLocation">{{ relief_effort.location }}</span></p>
+        <button class="editReliefEffortDetailsButton">Edit Relief Effort Details</button>
+        <button style="display: none" class="cancelEditReliefEffortDetailsButton">Cancel Editing</button>
+        <form style="display: none"action="/{{ relief_effort.id }}/update_relief_effort/" method="post">
+         {% csrf_token %}
+         <p>
+           <label for="id_name">Name:</label>
+           <input value="{{relief_effort.name}}" type="text" name="name" maxlength="100" required id="id_name" class="id_name">
+         </p>
+         <p>
+           <label for="id_desc">Description:</label>
+           <input value="{{relief_effort.desc}}" type="text" name="desc" maxlength="300" required id="id_desc" class="id_desc">
+         </p>
+         <p>
+           <label for="id_location">Location:</label>
+           <input value="{{relief_effort.location}}" type="text" name="location" maxlength="200" required id="id_location" class="id_location">
+         </p>
+         <input type="submit" value="Save Changes" />
+        </form>
+      </div>
+      <h4>Donations Needed</h4>
       <div class="currentNeeds">
-        <h3>Current Needs</h3>
+        <h5>Current Needs:</h5>
         <ul class"currentNeedsList">
         {% for item in current_needs %}
         <div class="singleItemReq">
-          <li>Name: <span class="itemName">{{ item.name }}</span> Desc: <span class="itemDesc">{{ item.desc }}</span>
+          <li>Name: <span class="itemName">{{ item.name }}</span> |  Description: <span class="itemDesc">{{ item.desc }}</span>
             <button class="deleteButton" id="itemRequest-{{item.id}}-delete" >Delete Item</button>
             <button class="editItemReqButton" id="itemRequest-{{item.id}}-edit" >Edit Item</button>
             <button style="display: none" class="cancelEditItemReqButton" id="itemRequest-{{item.id}}-cancel">Cancel Edit</button>
@@ -36,10 +55,10 @@
         </ul>
       </div>
       <div class="needsFulfilled">
-        <h3>Needs Fufilled</h3>
+        <h5>Needs Fufilled</h5>
         <ul class="needsFulfilledList">
         {% for item in needs_fulfilled %}
-          <li>Name: {{ item.name }} Desc: {{ item.desc }}</li>
+          <li>Name: {{ item.name }} |  Description: {{ item.desc }}</li>
         {% endfor %}
         </ul>
       </div>
@@ -73,5 +92,5 @@
       {% endif %}
 
 
-
+  </div>
 {% endblock %}
