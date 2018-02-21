@@ -24,10 +24,13 @@ def show(request, relief_effort_id):
         currentUser = None
     else:
         currentUser = str(request.user.email)
+    string_spacer = "%20"
+    split_text = relief_effort.name.split(" ")
+    tweet_text = string_spacer.join(split_text)
     current_needs = ItemRequest.objects.filter(relief_effort_id=relief_effort, is_fulfilled=False)
     needs_fulfilled = ItemRequest.objects.filter(relief_effort_id=relief_effort, is_fulfilled=True)
     form = ItemRequestForm()
-    return render(request, 'specific-relief.html', {'relief_effort':relief_effort, 'form': form, 'current_needs': current_needs,'needs_fulfilled':needs_fulfilled, 'orgAdmin':orgAdmin, 'currentUser':currentUser})
+    return render(request, 'specific-relief.html', {'relief_effort':relief_effort, 'form': form, 'current_needs': current_needs,'needs_fulfilled':needs_fulfilled, 'orgAdmin':orgAdmin, 'currentUser':currentUser, 'tweet_text': tweet_text})
 
 def show_donor_profile(request, user_id):
     user = User.objects.get(id=user_id)
