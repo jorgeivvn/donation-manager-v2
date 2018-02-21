@@ -38,72 +38,30 @@ $('.deleteButton').on('click', (event) => {
 
 $('.editItemReqButton').on('click', (event) => {
   event.preventDefault();
-  let itemRequestDomId = event.target.id
-  let currentItemReq = event.target.parentNode
-  // Grab text of name and desc and their span nodes and set them to variables:
-  let currentName = event.target.parentNode.getElementsByClassName('itemName')[0]
-  let currentDesc = event.target.parentNode.getElementsByClassName('itemDesc')[0]
-  let currentNameText = currentName.innerHTML
-  let currentDescText = currentDesc.innerHTML
-  // Create new input field for name:
-  let editNameField = document.createElement("input");
-  editNameField.type = "text";
-  editNameField.className = "itemNameInput"
-  editNameField.value = currentNameText
-  // Create new input field for desc:
-  let editDescField = document.createElement("input")
-  editDescField.type = "text";
-  editDescField.className = "itemDescInput"
-  editDescField.value = currentDescText
-  // Replace text fields with input fields:
-  currentItemReq.replaceChild(editNameField, currentName)
-  currentItemReq.replaceChild(editDescField, currentDesc)
-  //Replace edit button with save button:
-  let currentButton = event.target
-  let saveButton = document.createElement("button")
-  saveButton.innerHTML = "Save Changes"
-  saveButton.className = "saveItemReqButton"
-  saveButton.id = itemRequestDomId
-  currentItemReq.replaceChild(saveButton, currentButton)
-  // add event listener to new save button
-  $('#' + itemRequestDomId).on('click', (event) => {
-    event.preventDefault();
-    let itemRequestId = (event.target.id).split('-')[1]
-    let itemRequestDomId = event.target.id
-    let currentItemReq = event.target.parentNode
-    let updatedNameInput = event.target.parentNode.getElementsByClassName('itemNameInput')[0]
-    let updatedDescInput = event.target.parentNode.getElementsByClassName('itemDescInput')[0]
-    let updatedNameText = updatedNameInput.value
-    let updatedDescText = updatedDescInput.value
-    let saveButton = event.target
-    console.log(updatedNameText)
-    console.log(updatedDescText)
-    $.ajax({
-      url: '/update_item_request/',
-      method: 'GET',
-      data: {
-        item_request_id: itemRequestId,
-        updatedName: updatedNameText,
-        updatedDesc: updatedDescText
-      },
-      success: (res) => {
-        let updatedNameSpan = document.createElement("span")
-        updatedNameSpan.innerHTML = res.name
-        updatedNameSpan.className = "itemName"
-        let updatedDescSpan = document.createElement("span")
-        updatedDescSpan.innerHTML = res.Name
-        updatedNameSpan.className = "itemDesc"
-        currentItemReq.replaceChild(updatedNameSpan, updatedNameInput)
-        currentItemReq.replaceChild(updatedDescSpan, updatedDescInput)
-        let editButton = document.createElement("button")
-        editButton.innerHTML = "Edit Item"
-        editButton.className = "editItemReqButton"
-        editButton.id = itemRequestDomId
-        currentItemReq.replaceChild(editButton, saveButton)
-      },
-      error: () => {
-        console.log(' error doing update')
-      }
-    })
-  })
+  event.target.parentNode.childNodes[9].style.display = null;
+  event.target.style.display = 'none';
+  let currentItemReq = event.target.parentNode.parentNode
+  let updateForm = currentItemReq.childNodes[3]
+  updateForm.style.display = null;
+  updateForm.style.border = '2px solid green';
+  updateForm.style.width = '300px';
+  updateForm.style.padding = '5px';
+})
+
+$('.cancelEditItemReqButton').on('click', (event) => {
+  event.preventDefault();
+  let currentName = event.target.parentNode.getElementsByClassName('itemName')[0];
+  let currentDesc = event.target.parentNode.getElementsByClassName('itemDesc')[0];
+  let editButton = event.target.parentNode.getElementsByClassName('editItemReqButton')[0];
+  let nameInputBox = event.target.parentNode.parentNode.getElementsByClassName('id_name')[0];
+  let descInputBox = event.target.parentNode.parentNode.getElementsByClassName('id_desc')[0];
+  nameInputBox.value = currentName.innerHTML;
+  descInputBox.value = currentDesc.innerHTML;
+  let updateForm = event.target.parentNode.parentNode.childNodes[3];
+  updateForm.style.display = 'none';
+  updateForm.style.border = null;
+  updateForm.style.width = null;
+  updateForm.style.padding = null;
+  event.target.style.display = 'none';
+  editButton.style.display = null;
 })

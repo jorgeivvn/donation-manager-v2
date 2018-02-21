@@ -2,7 +2,7 @@ from django import forms
 from .models import ReliefEffort, User, ItemRequest, OrgAdmin, Donor
 from django.db import transaction
 from django.utils.translation import ugettext, ugettext_lazy as _
-
+from django.views.generic.edit import UpdateView
 
 class ReliefEffortForm(forms.ModelForm):
     class Meta:
@@ -13,7 +13,7 @@ class ItemRequestForm(forms.ModelForm):
     class Meta:
         model = ItemRequest
         fields = ['name','desc']
-
+        
 class LoginForm(forms.Form):
     email = forms.CharField(label="Email", max_length=254)
     password = forms.CharField(widget=forms.PasswordInput())
