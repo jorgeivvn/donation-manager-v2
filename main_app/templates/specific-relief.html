@@ -10,7 +10,7 @@
         <p><span style="font-weight: bold">Location: </span><span class="reliefEffortLocation">{{ relief_effort.location }}</span></p>
         <button class="editReliefEffortDetailsButton">Edit Relief Effort Details</button>
         <button style="display: none" class="cancelEditReliefEffortDetailsButton">Cancel Editing</button>
-        <form style="display: none"action="/{{ relief_effort.id }}/update_relief_effort/" method="post">
+        <form style="display: none" action="/{{ relief_effort.id }}/update_relief_effort/" method="post">
          {% csrf_token %}
          <p>
            <label for="id_name">Name:</label>

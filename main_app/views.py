@@ -143,3 +143,13 @@ def update_item_request(request, item_request_id):
         item_request.desc = form.cleaned_data['desc']
         item_request.save()
     return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+
+def update_relief_effort(request, relief_effort_id):
+    form = ReliefEffortForm(request.POST)
+    if form.is_valid():
+        relief_effort = ReliefEffort.objects.get(id=relief_effort_id)
+        relief_effort.name = form.cleaned_data['name']
+        relief_effort.desc = form.cleaned_data['desc']
+        relief_effort.location = form.cleaned_data['location']
+        relief_effort.save()
+    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
