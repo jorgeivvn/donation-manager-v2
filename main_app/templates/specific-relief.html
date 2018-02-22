@@ -4,15 +4,15 @@
 {% block content %}
   <div class="reliefEffortContentBox" style="margin: 20px; padding: 70px 50px 50px 50px;">
     {% if not percentage_fulfilled == None %}
-    <h2>{{ percentage_fulfilled }}% of Needs Met</h2>
+    <h2 style="color:{{color}}">{{ percentage_fulfilled }}% of Needs Met</h2>
     {% endif %}
       {% if currentUser == orgAdmin %}
-      <div class="reliefEffortDetailsBox">
+      <div class="reliefEffortDetailsBox" style="width: 60%; margin: 12px 0px 30px 0px;">
         <h1 class="reliefEffortName">{{ relief_effort.name }}</h1>
         <p>Description: <span class="reliefEffortDesc">{{ relief_effort.desc }}</span></p>
         <p><span style="font-weight: bold">Location: </span><span class="reliefEffortLocation">{{ relief_effort.location }}</span></p>
-        <button class="editReliefEffortDetailsButton">Edit Relief Effort Details</button>
-        <button style="display: none" class="cancelEditReliefEffortDetailsButton">Cancel Editing</button>
+        <button class="editReliefEffortDetailsButton btn btn-info">Edit Relief Effort Details</button>
+        <button style="display: none" class="cancelEditReliefEffortDetailsButton btn btn-warning">Cancel Editing</button>
         <form style="display: none" action="/{{ relief_effort.id }}/update_relief_effort/" method="post">
          {% csrf_token %}
          <p>
@@ -27,20 +27,21 @@
            <label for="id_location">Location:</label>
            <input value="{{relief_effort.location}}" type="text" name="location" maxlength="200" required id="id_location" class="id_location">
          </p>
-         <input type="submit" value="Save Changes" />
+         <input type="submit" class="btn btn-success" value="Save Changes" />
         </form>
       </div>
+      <div style="margin: 24px 0px 24px 0px" class="needsView">
       <h4>Donations Needed</h4>
       <div class="currentNeeds">
         <h5>Current Needs:</h5>
-        <ul class"currentNeedsList">
+        <div class"currentNeedsList">
         {% for item in current_needs %}
         <div class="singleItemReq">
-          <li>Name: <span class="itemName">{{ item.name }}</span> |  Description: <span class="itemDesc">{{ item.desc }}</span>
-            <button class="deleteButton" id="itemRequest-{{item.id}}-delete" >Delete Item</button>
-            <button class="editItemReqButton" id="itemRequest-{{item.id}}-edit" >Edit Item</button>
-            <button style="display: none" class="cancelEditItemReqButton" id="itemRequest-{{item.id}}-cancel">Cancel Edit</button>
-          </li>
+          <div style="padding: 10px;">Name: <span class="itemName">{{ item.name }}</span> | Description: <span class="itemDesc">{{ item.desc }}</span>
+            <button class="deleteButton btn btn-danger" id="itemRequest-{{item.id}}-delete" >Delete Item</button>
+            <button class="editItemReqButton btn btn-info" id="itemRequest-{{item.id}}-edit" >Edit Item</button>
+            <button style="display: none" class="cancelEditItemReqButton btn btn-warning" id="itemRequest-{{item.id}}-cancel">Cancel Edit</button>
+          </div>
           <form style="display: none"action="/{{ item.id }}/update_item_request/" method="post">
            {% csrf_token %}
            <p>
@@ -51,33 +52,34 @@
              <label for="id_desc">Desc:</label>
              <input value="{{item.desc}}" type="text" name="desc" maxlength="100" required id="id_desc" class="id_desc">
            </p>
-           <input type="submit" value="Save Changes" />
+           <input type="submit" class="btn btn-success" value="Save Changes" />
           </form>
         </div>
         {% endfor %}
-        </ul>
+      </div>
       </div>
       <div class="needsFulfilled">
-        <h5>Needs Fufilled</h5>
+        <h5>Needs Fufilled:</h5>
         <ul class="needsFulfilledList">
         {% for item in needs_fulfilled %}
           <li>Name: {{ item.name }} |  Description: {{ item.desc }}</li>
         {% endfor %}
         </ul>
       </div>
+    </div>
       <form action="/{{ relief_effort.id }}/post_item_request/" method="post">
        {% csrf_token %}
        {{ create_form.as_p }}
-       <input type="submit" value="Submit" />
+       <input type="submit" class="btn btn-success" value="Submit" />
      </form>
       <a class="btn btn-primary btn-md" href="https://twitter.com/intent/tweet?text=Please%20donate%20to%20the%20{{tweet_text}}&hashtags=67kTeddyBear,GiveToLive">Tweet your Relief Effort!</a>
       {% else %}
-      <p>Name: {{ relief_effort.name }}</p>
+      <h1>{{ relief_effort.name }}</h1>
+      <h4>Sponsored by <a href="/{{ org_admin_user.id }}/org-admin-profile">{{ org_admin.org_name }}</a></h4>
       <p>Description: {{ relief_effort.desc }}</p>
       <p>Location: {{ relief_effort.location }}</p>
-      <h5>Item Requests</h5>
       <div class="currentNeeds">
-        <h3>Current Needs</h3>
+        <h4>Current Needs</h4>
         <ul class"currentNeedsList">
         {% for item in current_needs %}
           <li>Name: {{ item.name }} Desc: {{ item.desc }} <button class="donationButton" id="itemRequest-{{item.id}}-donate" >Donate Item</button></li>
@@ -85,13 +87,14 @@
         </ul>
       </div>
       <div class="needsFulfilled">
-        <h3>Needs Fufilled</h3>
+        <h4>Needs Fufilled</h4>
         <ul class="needsFulfilledList">
         {% for item in needs_fulfilled %}
           <li>Name: {{ item.name }} Desc: {{ item.desc }}</li>
         {% endfor %}
         </ul>
       </div>
+      <a class="btn btn-primary btn-md" href="https://twitter.com/intent/tweet?text=Please%20donate%20to%20the%20{{tweet_text}}&hashtags=67kTeddyBear,GiveToLive">Tweet It!</a>
       {% endif %}
 
 

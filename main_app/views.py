@@ -7,6 +7,25 @@ from django.views.generic import CreateView
 
 # Create your views here.
 
+def generate_completion_percentages(relief_effort_list):
+    percentage_list = [];
+    for relief_effort in relief_effort_list:
+        current_needs = ItemRequest.objects.filter(relief_effort_id=relief_effort.id, is_fulfilled=False)
+        needs_fulfilled = ItemRequest.objects.filter(relief_effort_id=relief_effort.id, is_fulfilled=True)
+        if len(current_needs) > 0 or len(needs_fulfilled) > 0:
+            percentage_fulfilled = round(((len(needs_fulfilled) / (len(needs_fulfilled) + len(current_needs))) * 100), 2)
+        else:
+            percentage_fulfilled = None;
+        percentage_and_re = {}
+        green = int(255 * percentage_fulfilled / 100)
+        red = 255 - green
+        percentage_and_re['percentage_fulfilled'] = percentage_fulfilled
+        percentage_and_re['relief_effort'] = relief_effort
+        percentage_and_re['color'] = 'rgb({},{},50)'.format(red, green)
+        percentage_list.append(percentage_and_re)
+    return percentage_list
+
+
 def index(request):
     relief_efforts = ReliefEffort.objects.all()
     if len(relief_efforts) == 1:
@@ -36,11 +55,17 @@ def about(request):
 
 def relief_efforts_index(request):
     relief_efforts = ReliefEffort.objects.all()
-    return render(request, 'relief-efforts-index.html', {'relief_efforts': relief_efforts})
+    percentage_list = generate_completion_percentages(relief_efforts)
+    def get_percentage(item):
+        return item['percentage_fulfilled']
+    sorted_list = sorted(percentage_list, key=get_percentage)
+    return render(request, 'relief-efforts-index.html', {'relief_efforts': relief_efforts, 'sorted_list': sorted_list})
 
 def show(request, relief_effort_id):
     relief_effort = ReliefEffort.objects.get(id=relief_effort_id)
     orgAdmin = str(relief_effort.org_admin_id.user)
+    org_admin = OrgAdmin.objects.get(user=relief_effort.org_admin_id.user)
+    org_admin_user = User.objects.get(email=org_admin.user)
     if request.user.is_anonymous:
         currentUser = None
     else:
@@ -56,7 +81,10 @@ def show(request, relief_effort_id):
         percentage_fulfilled = None;
     form_list = []
     create_form = ItemRequestForm()
-    return render(request, 'specific-relief.html', {'relief_effort':relief_effort, 'create_form': create_form, 'current_needs': current_needs,'needs_fulfilled':needs_fulfilled, 'orgAdmin':orgAdmin, 'currentUser':currentUser, 'tweet_text': tweet_text, 'percentage_fulfilled': percentage_fulfilled})
+    green = int(255 * percentage_fulfilled / 100)
+    red = 255 - green
+    color = 'rgb({},{},50)'.format(red, green)
+    return render(request, 'specific-relief.html', {'relief_effort':relief_effort, 'create_form': create_form, 'current_needs': current_needs,'needs_fulfilled':needs_fulfilled, 'orgAdmin':orgAdmin, 'currentUser':currentUser, 'tweet_text': tweet_text, 'percentage_fulfilled': percentage_fulfilled, 'color': color, 'org_admin':org_admin, 'org_admin_user':org_admin_user})
 
 def show_donor_profile(request, user_id):
     user = User.objects.get(id=user_id)
@@ -68,7 +96,15 @@ def show_org_admin_profile(request, user_id):
     org_admin = OrgAdmin.objects.get(user=user)
     relief_efforts = ReliefEffort.objects.filter(org_admin_id=org_admin)
     form = ReliefEffortForm()
-    return render(request, 'org_admin_profile.html', {'user': user, 'org_admin': org_admin, 'form': form, 'user_id':user_id, 'relief_efforts':relief_efforts})
+    percentage_list = generate_completion_percentages(relief_efforts)
+    if request.user.is_anonymous:
+        currentUser = None
+    else:
+        currentUser = str(request.user.email)
+    def get_percentage(item):
+        return item['percentage_fulfilled']
+    sorted_list = sorted(percentage_list, key=get_percentage)
+    return render(request, 'org_admin_profile.html', {'user': user, 'org_admin': org_admin, 'form': form, 'user_id':user_id, 'relief_efforts':relief_efforts, 'percentage_list': sorted_list, 'currentUser': currentUser})
 
 def post_relief_effort(request):
     form = ReliefEffortForm(request.POST)
