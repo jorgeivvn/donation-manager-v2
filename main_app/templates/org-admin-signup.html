@@ -4,6 +4,9 @@
   <div class="org-admin-signup">
     <div class="row">
       <div class="col-md-8 col-sm-10 col-12">
+        <div class="admin-signup-header">
+          <h1>Sign Up As Organization Administrator:</h1>
+        </div>
         <form method="post" novalidate>
           {% csrf_token %}
           <input type="hidden" name="next" value="{{ next }}">

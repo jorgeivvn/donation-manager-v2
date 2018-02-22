@@ -13,7 +13,7 @@ class ItemRequestForm(forms.ModelForm):
     class Meta:
         model = ItemRequest
         fields = ['name','desc']
-        
+
 class LoginForm(forms.Form):
     email = forms.CharField(label="Email", max_length=254)
     password = forms.CharField(widget=forms.PasswordInput())
@@ -24,9 +24,8 @@ class UserCreationForm(forms.ModelForm):
     }
     password1 = forms.CharField(label=_("Password"),
         widget=forms.PasswordInput)
-    password2 = forms.CharField(label=_("Password confirmation"),
-        widget=forms.PasswordInput,
-        help_text=_("Enter the same password as above, for verification."))
+    password2 = forms.CharField(label=_("Re-type Password"),
+        widget=forms.PasswordInput)
 
     class Meta:
         model = User

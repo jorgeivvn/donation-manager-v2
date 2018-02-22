@@ -14,9 +14,9 @@
 <div class="donor-profile-container" >
   <div class="row" style="margin-left:350px;">
   <div class="col-lg-8 col-md-6 col-sm-6 col-xs-12">
-  <div class="panel panel-default plain profile-panel" style="background-color:#FF5653">
+  <div class="panel panel-default plain profile-panel" style="background-color:#FF5653; border:4px solid black">
       <!-- <div class="panel-heading white-content p-left p-right" style="background-color:#FF5653">
-          <img class="profile-image img-responsive" src="https://lorempixel.com/600/200/sports/1" alt="profile cover">
+          <img class="profile-image img-responsive" src="https://i.imgur.com/0ANlwyB.jpg" alt="profile cover" style="width:100%">
       </div> -->
       <div class="panel-body" style="color:white">
           <div class="col-lg-4 col-md-4 col-sm-12">
@@ -32,6 +32,10 @@
                   <p>Helping this world out, one donation at a time!</p>
               </div>
               <div class="profile-stats-info">
+                <h4>My Donations:</h4>
+                {% for donation in donation_list%}
+                  <p>{{donation.name}} {{donation.desc}} - {{donation.relief_effort_name}} - {{donation.date}}</p>
+                {% endfor %}
                   <a href="#" title="Views" style="color:white">    <i class="glyphicon glyphicon-eye-open" >  </i> <strong>2000</strong></a>
                   <a href="#" title="Comments" style="color:white"> <i class="glyphicon glyphicon-comment">   </i> <strong>120</strong></a>
                   <a href="#" title="Likes" style="color:white">    <i class="glyphicon glyphicon-thumbs-up"> </i> <strong>60</strong></a>
@@ -41,7 +45,7 @@
       <div class="panel-footer white-content" style="background-color:#FF5653">
           <ul class="profile-info" style="color:white">
               <li><i class="glyphicon glyphicon-phone" ></i>      +123.456.7890</li>
-              <li><i class="glyphicon glyphicon-map-marker"></i>  Austin, Texas</li>
+              <li><i class="glyphicon glyphicon-map-marker"></i> Austin, TX</li>
               <li><i class="glyphicon glyphicon-envelope"></i>    {{ user.email}}</li>
               <li><i class="glyphicon glyphicon-edit"></i>        Web developer</li>
               <li><i class="glyphicon glyphicon-share"></i>      factory@mail.com</li>
