@@ -4,16 +4,14 @@ from django.utils.translation import ugettext_lazy
 
 # Register your models here.
 
-from .models import User
-from .models import ReliefEffort
-from .models import ItemRequest
-from .models import OrgAdmin
-from .models import Donor
+from .models import User, ReliefEffort, ItemRequest, OrgAdmin, Donor, Donation
+
 
 admin.site.register(ReliefEffort)
 admin.site.register(ItemRequest)
 admin.site.register(OrgAdmin)
 admin.site.register(Donor)
+admin.site.register(Donation)
 
 @admin.register(User)
 class UserAdmin(DjangoUserAdmin):

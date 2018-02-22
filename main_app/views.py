@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect
 from .forms import ReliefEffortForm, ItemRequestForm, LoginForm, OrgAdminSignUpForm, DonorSignUpForm
-from .models import ReliefEffort, ItemRequest, User, OrgAdmin, Donor
+from .models import ReliefEffort, ItemRequest, User, OrgAdmin, Donor, Donation
 from django.contrib.auth import authenticate, login, logout
 from django.views.generic import CreateView
 
@@ -15,7 +15,7 @@ def generate_completion_percentages(relief_effort_list):
         if len(current_needs) > 0 or len(needs_fulfilled) > 0:
             percentage_fulfilled = round(((len(needs_fulfilled) / (len(needs_fulfilled) + len(current_needs))) * 100), 2)
         else:
-            percentage_fulfilled = None;
+            percentage_fulfilled = 0;
         percentage_and_re = {}
         green = int(255 * percentage_fulfilled / 100)
         red = 255 - green
@@ -78,7 +78,7 @@ def show(request, relief_effort_id):
     if len(current_needs) > 0 or len(needs_fulfilled) > 0:
         percentage_fulfilled = round(((len(needs_fulfilled) / (len(needs_fulfilled) + len(current_needs))) * 100), 2)
     else:
-        percentage_fulfilled = None;
+        percentage_fulfilled = 0;
     form_list = []
     create_form = ItemRequestForm()
     green = int(255 * percentage_fulfilled / 100)
@@ -88,8 +88,21 @@ def show(request, relief_effort_id):
 
 def show_donor_profile(request, user_id):
     user = User.objects.get(id=user_id)
-    donor = Donor.objects.filter(user=user)
-    return render(request, 'donor_profile.html', {'user': user, 'donor': donor})
+    donor = Donor.objects.get(user=user)
+    donations = Donation.objects.filter(donor_id=donor)
+    donation_list = []
+    for donation in donations:
+        item_request = ItemRequest.objects.get(id=donation.item_request_id.id)
+        relief_effort = ReliefEffort.objects.get(id=item_request.relief_effort_id.id)
+        donation_info = {}
+        donation_info['name'] = item_request.name
+        donation_info['desc'] = item_request.desc
+        donation_info['date'] = donation.created_at
+        donation_info['relief_effort_name'] = relief_effort.name
+        donation_info['relief_effort_desc'] = relief_effort.desc
+        donation_info['relief_effort_location'] = relief_effort.location
+        donation_list.append(donation_info)
+    return render(request, 'donor_profile.html', {'user': user, 'donor': donor, 'donation_list': donation_list})
 
 def show_org_admin_profile(request, user_id):
     user = User.objects.get(id=user_id)
@@ -101,10 +114,11 @@ def show_org_admin_profile(request, user_id):
         currentUser = None
     else:
         currentUser = str(request.user.email)
+    org_admin_as_str = str(org_admin.user)
     def get_percentage(item):
         return item['percentage_fulfilled']
     sorted_list = sorted(percentage_list, key=get_percentage)
-    return render(request, 'org_admin_profile.html', {'user': user, 'org_admin': org_admin, 'form': form, 'user_id':user_id, 'relief_efforts':relief_efforts, 'percentage_list': sorted_list, 'currentUser': currentUser})
+    return render(request, 'org_admin_profile.html', {'user': user, 'org_admin': org_admin, 'form': form, 'user_id':user_id, 'relief_efforts':relief_efforts, 'percentage_list': sorted_list, 'currentUser': currentUser, 'org_admin_as_str': org_admin_as_str})
 
 def post_relief_effort(request):
     form = ReliefEffortForm(request.POST)
@@ -192,4 +206,16 @@ def update_relief_effort(request, relief_effort_id):
         relief_effort.desc = form.cleaned_data['desc']
         relief_effort.location = form.cleaned_data['location']
         relief_effort.save()
+    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+
+def make_donation(request, item_request_id):
+    user_id = request.POST.get('user_id', None)
+    user = User.objects.get(id=user_id)
+    donor = Donor.objects.get(user=user)
+    item_request = ItemRequest.objects.get(id=item_request_id)
+    item_request.is_fulfilled = True
+    item_request.save()
+    donation = Donation.objects.create(donor_id=donor)
+    donation.item_request_id = item_request
+    donation.save()
     return HttpResponseRedirect(request.META.get('HTTP_REFERER'))

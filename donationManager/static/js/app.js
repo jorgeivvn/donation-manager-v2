@@ -1,22 +1,37 @@
 
 $('.donationButton').on('click', (event) => {
   event.preventDefault();
-  let currentItemReq = event.target.parentNode
-  let currentButton = event.target
-  let itemRequestId = (event.target.id).split('-')[1]
-  $.ajax({
-    url: '/post_donate/',
-    method: 'GET',
-    data: {item_request_id: itemRequestId},
-    success: (res) => {
-      currentButton.remove()
-      document.getElementsByClassName('needsFulfilledList')[0].prepend(currentItemReq)
-      location.reload()
-    },
-    error: () => {
-      console.log(' error doing donation')
-    }
-  })
+  let authorizeDonationBox = event.target.parentNode.parentNode.getElementsByClassName('authorizeDonation')[0]
+  let cancelDonationButton = event.target.parentNode.parentNode.getElementsByClassName('cancelDonationButton')[0]
+  event.target.style.display = "none";
+  cancelDonationButton.style.display = null;
+  authorizeDonationBox.style.display = null;
+  console.log(authorizeDonationBox)
+  // let currentItemReq = event.target.parentNode
+  // let currentButton = event.target
+  // let itemRequestId = (event.target.id).split('-')[1]
+  // $.ajax({
+  //   url: '/post_donate/',
+  //   method: 'GET',
+  //   data: {item_request_id: itemRequestId},
+  //   success: (res) => {
+  //     currentButton.remove()
+  //     document.getElementsByClassName('needsFulfilledList')[0].prepend(currentItemReq)
+  //     location.reload()
+  //   },
+  //   error: () => {
+  //     console.log(' error doing donation')
+  //   }
+  // })
+})
+
+$('.cancelDonationButton').on('click', (event) => {
+  event.preventDefault()
+  let donationButton = event.target.parentNode.parentNode.getElementsByClassName('donationButton')[0]
+  let authorizeDonationBox = event.target.parentNode.parentNode.getElementsByClassName('authorizeDonation')[0]
+  event.target.style.display = "none";
+  authorizeDonationBox.style.display = "none";
+  donationButton.style.display = null;
 })
 
 $('.deleteButton').on('click', (event) => {
