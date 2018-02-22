@@ -62,7 +62,7 @@ ul.nav li a:hover, ul.nav li a:active {
 
 .login-form-container p {
   font-size: 20px;
-  color: white;
+  color: black;
 }
 
 .login-form-container h1 {
@@ -86,4 +86,29 @@ ul.nav li a:hover, ul.nav li a:active {
 
 .signup-container a {
   color: white;
+}
+
+.donor-signup-container {
+  display: flex;
+  flex-direction: column;
+  border: 2px solid #FF5653;
+  padding: 80px 80px;
+  margin: 85px auto;
+  width: 30%;
+  background-color: #FF5653;
+}
+
+.org-admin-signup {
+  display: flex;
+  flex-direction: column;
+  border: 2px solid #FF5653;
+  padding: 30px 80px;
+  margin: 75px auto;
+  width: 30%;
+  background-color: #FF5653;
+}
+
+.donor-user-name {
+  font-family: 'Roboto', sans-serif;
+  font-size: 20px;
 }
