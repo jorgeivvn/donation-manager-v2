@@ -20,7 +20,6 @@
            <ul class="nav navbar-nav">
              <li><a href="/about">About</a></li>
              <li><a href="/relief_efforts">Relief Efforts</a></li>
-             <li><a href="#">Emergency Hotlines</a></li>
              {% if user.is_authenticated %}
                  {% if user.is_donor %}
                    <li><a href='/{{ user.id }}/donor-profile'>Profile</a></li>
