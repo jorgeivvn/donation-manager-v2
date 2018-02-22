@@ -83,11 +83,9 @@ ul.nav li a:hover, ul.nav li a:active {
   width: 30%;
   background-color: #FF5653;
 }
-
 .signup-container a {
   color: white;
 }
-
 .donor-signup-container {
   display: flex;
   flex-direction: column;
