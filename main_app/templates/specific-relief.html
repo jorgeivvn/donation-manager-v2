@@ -81,31 +81,36 @@
       <div class="currentNeeds">
         <h4>Current Needs</h4>
         <ul class"currentNeedsList">
-        {% for item in current_needs %}
-          <li>Name: {{ item.name }} Desc: {{ item.desc }} <button class="donationButton btn btn-sm btn-success" id="itemRequest-{{item.id}}-donate" >Donate Item</button><button style="display: none" class="cancelDonationButton btn btn-sm btn-warning">Cancel Donation</button></li>
-          <div style="display: none" class="authorizeDonation">
-            {% if user.is_donor %}
-            <form action="/{{ item.id }}/make_donation/" method="post">
-             {% csrf_token %}
-             <p style="display: none">
-               <label for="item_request_id">Name:</label>
-               <input value="{{item.id}}" type="text" name="item_request_id" maxlength="40" required id="item_request_id" class="item_request_id">
-             </p>
-             <p style="display: none">
-               <label for="user_id">Desc:</label>
-               <input value="{{user.id}}" type="text" name="user_id" maxlength="100" required id="user_id" class="user_id">
-             </p>
-             <h4>Donate QTY 1 <span style="font-weight: bold">"{{item.name}} - {{item.desc}}"</span>?</h4>
-             <input type="submit" class="btn btn-success" value="Confirm Donation" />
-            </form>
-            {% else %}
-            <div style="width: 380px; border: 2px solid #FF5653; padding: 6px; text-align: center;">
-              <p>Please sign-in or sign-up as a donor in order to make a donation.</p>
-              <a class="btn btn-primary btn-sm" href="/signup_login">Sign/Sign-Up Here</a>
+          {% if user.is_donor %}
+          {% for item in current_needs %}
+            <li>Name: {{ item.name }} Desc: {{ item.desc }} <button class="donationButton btn btn-sm btn-success" id="itemRequest-{{item.id}}-donate" >Donate Item</button><button style="display: none" class="cancelDonationButton btn btn-sm btn-warning">Cancel Donation</button></li>
+            <div style="display: none" class="authorizeDonation">
+              <form action="/{{ item.id }}/make_donation/" method="post">
+               {% csrf_token %}
+               <p style="display: none">
+                 <label for="item_request_id">Name:</label>
+                 <input value="{{item.id}}" type="text" name="item_request_id" maxlength="40" required id="item_request_id" class="item_request_id">
+               </p>
+               <p style="display: none">
+                 <label for="user_id">Desc:</label>
+                 <input value="{{user.id}}" type="text" name="user_id" maxlength="100" required id="user_id" class="user_id">
+               </p>
+               <h4>Donate QTY 1 <span style="font-weight: bold">"{{item.name}} - {{item.desc}}"</span>?</h4>
+               <input type="submit" class="btn btn-success" value="Confirm Donation" />
+              </form>
             </div>
-          </div>
-          {% endif %}
-        {% endfor %}
+            {% endfor %}
+            {% else %}
+            {% for item in current_needs %}
+            <li>Name: {{ item.name }} Desc: {{ item.desc }} <button class="donationButton btn btn-sm btn-success" id="itemRequest-{{item.id}}-donate" >Donate Item</button><button style="display: none" class="cancelDonationButton btn btn-sm btn-warning">Cancel Donation</button></li>
+            <div style="display: none" class="authorizeDonation">
+              <div style="width: 380px; border: 2px solid #FF5653; padding: 6px; text-align: center;">
+                <p>Please sign-in or sign-up as a donor in order to make a donation.</p>
+                <a class="btn btn-primary btn-sm" href="/signup_login">Sign/Sign-Up Here</a>
+              </div>
+            </div>
+           {% endfor %}
+        {% endif %}
         </ul>
       </div>
       <div class="needsFulfilled">

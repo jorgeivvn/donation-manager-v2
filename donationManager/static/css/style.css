@@ -33,6 +33,10 @@ footer .container-fluid {
   background-repeat: no-repeat;
   color: white !important;
 }
+.profileJumbotron {
+  background-image: none;
+  background: linear-gradient(180deg, #614126, white);
+}
 .jumbotron .container {
   opacity: 0.8;
 }
