@@ -101,6 +101,7 @@ def show_donor_profile(request, user_id):
         donation_info['relief_effort_name'] = relief_effort.name
         donation_info['relief_effort_desc'] = relief_effort.desc
         donation_info['relief_effort_location'] = relief_effort.location
+        donation_info['relief_effort_id'] = relief_effort.id
         donation_list.append(donation_info)
     return render(request, 'donor_profile.html', {'user': user, 'donor': donor, 'donation_list': donation_list})
 

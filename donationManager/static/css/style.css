@@ -173,3 +173,8 @@ ul.nav li a:hover, ul.nav li a:active {
   padding: 14px 24px;
   font-size: 21px;
 }
+.donationItemData {
+  border: 2px solid #614126;
+  padding: 6px 0px 6px 12px;
+  margin-bottom: 6px;
+}

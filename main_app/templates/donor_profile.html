@@ -32,10 +32,7 @@
                   <p>Helping this world out, one donation at a time!</p>
               </div>
               <div class="profile-stats-info">
-                <h4>My Donations:</h4>
-                {% for donation in donation_list%}
-                  <p>{{donation.name}} {{donation.desc}} - {{donation.relief_effort_name}} - {{donation.date}}</p>
-                {% endfor %}
+
                   <a href="#" title="Views" style="color:white">    <i class="glyphicon glyphicon-eye-open" >  </i> <strong>2000</strong></a>
                   <a href="#" title="Comments" style="color:white"> <i class="glyphicon glyphicon-comment">   </i> <strong>120</strong></a>
                   <a href="#" title="Likes" style="color:white">    <i class="glyphicon glyphicon-thumbs-up"> </i> <strong>60</strong></a>
@@ -50,6 +47,18 @@
               <li><i class="glyphicon glyphicon-edit"></i>        Web developer</li>
               <li><i class="glyphicon glyphicon-share"></i>      factory@mail.com</li>
           </ul>
+      </div>
+      <div class="panel-footer white-content" style="background-color:#FF5653; color: white">
+          <!-- <ul class="profile-info" style="color:white"> -->
+            <h3>My Donations</h3>
+            {% for donation in donation_list%}
+              <div class="donationItemData">
+                <h4>{{donation.name}} {{donation.desc}}</h4>
+                <p><a href="/{{donation.relief_effort_id}}">{{donation.relief_effort_name}}</a></p>
+                <p>{{donation.date}}</p>
+              </div>
+            {% endfor %}
+          <!-- </ul> -->
       </div>
   </div>
   </div>
