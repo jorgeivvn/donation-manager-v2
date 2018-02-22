@@ -62,7 +62,7 @@ ul.nav li a:hover, ul.nav li a:active {
 
 .login-form-container p {
   font-size: 20px;
-  color: white;
+  color: black;
 }
 
 .login-form-container h1 {
@@ -86,4 +86,28 @@ ul.nav li a:hover, ul.nav li a:active {
 
 .signup-container a {
   color: white;
+}
+
+.about-section-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+}
+.about-container {
+  font-family: 'Roboto', sans-serif;
+  background-color: #FF5653;
+  display: flex;
+  flex-direction: column;
+  border: 4px solid #614126;
+  color: black;
+  padding: 30px 40px;
+  margin: 200px auto;
+  width: 60%;
+}
+.about-container h2 {
+  font-size: 40px;
+}
+.about-container p {
+  font-size: 18px;
 }
