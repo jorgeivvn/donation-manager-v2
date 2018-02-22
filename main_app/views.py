@@ -78,7 +78,7 @@ def show(request, relief_effort_id):
     if len(current_needs) > 0 or len(needs_fulfilled) > 0:
         percentage_fulfilled = round(((len(needs_fulfilled) / (len(needs_fulfilled) + len(current_needs))) * 100), 2)
     else:
-        percentage_fulfilled = None;
+        percentage_fulfilled = 0;
     form_list = []
     create_form = ItemRequestForm()
     green = int(255 * percentage_fulfilled / 100)
@@ -88,12 +88,21 @@ def show(request, relief_effort_id):
 
 def show_donor_profile(request, user_id):
     user = User.objects.get(id=user_id)
-    donor = Donor.objects.filter(user=user)
+    donor = Donor.objects.get(user=user)
     donations = Donation.objects.filter(donor_id=donor)
-    # donationList = []
-    # for donation in donations:
-    #     item_request = ItemRequest.objects.get(donation.item_request_id)
-    return render(request, 'donor_profile.html', {'user': user, 'donor': donor, 'donations': donations})
+    donation_list = []
+    for donation in donations:
+        item_request = ItemRequest.objects.get(id=donation.item_request_id.id)
+        relief_effort = ReliefEffort.objects.get(id=item_request.relief_effort_id.id)
+        donation_info = {}
+        donation_info['name'] = item_request.name
+        donation_info['desc'] = item_request.desc
+        donation_info['date'] = donation.created_at
+        donation_info['relief_effort_name'] = relief_effort.name
+        donation_info['relief_effort_desc'] = relief_effort.desc
+        donation_info['relief_effort_location'] = relief_effort.location
+        donation_list.append(donation_info)
+    return render(request, 'donor_profile.html', {'user': user, 'donor': donor, 'donation_list': donation_list})
 
 def show_org_admin_profile(request, user_id):
     user = User.objects.get(id=user_id)
