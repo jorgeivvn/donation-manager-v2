@@ -11,6 +11,7 @@ $('.donationButton').on('click', (event) => {
     success: (res) => {
       currentButton.remove()
       document.getElementsByClassName('needsFulfilledList')[0].prepend(currentItemReq)
+      location.reload()
     },
     error: () => {
       console.log(' error doing donation')

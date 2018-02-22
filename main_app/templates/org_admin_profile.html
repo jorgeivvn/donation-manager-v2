@@ -3,23 +3,36 @@
 {% block content %}
 <div class="jumbotron">
   <div class="container">
-    <h1 class="display-3">Welcome, {{ user.first_name }}!</h1>
-    <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui.</p>
-    <p><a class="btn btn-primary btn-lg" href="#" role="button">Learn more &raquo;</a></p>
+    <h1 class="display-3">{{org_admin.org_name}}</h1>
+    <h2>{{org_admin.org_location}}</h2>
+    <p>{{org_admin.org_bio}}</p>
+    <!-- {% if user.is_authenticated %}
+      {% if user.is_org_admin %}
+        <p><a class="btn btn-primary btn-lg" href="/{{user.id}}/edit-profile" role="button">Edit Profle &raquo;</a></p>
+      {% endif %}
+    {% endif %} -->
   </div>
 </div>
 {% if user.is_authenticated %}
-  {% if user.is_org_admin %}
-  <form action="/post_url/" method="post">
-     {% csrf_token %}
-     {{ form.as_p }}
-     <input type="submit" value="Create Relief Effort" />
-  </form>
+  {% if org_admin.user == currentUser %}
+  <div style="width: 30%; margin: 0 auto;"class="adminAddReliefEffort">
+    <h2>Create New Relief Effort</h2>
+    <form action="/post_url/" method="post">
+       {% csrf_token %}
+      {{ form.as_p }}
+      <input type="submit" value="Create Relief Effort" />
+    </form>
+  </div>
   {% endif %}
 {% endif %}
-{% for relief_effort in relief_efforts %}
-  <a href="/{{relief_effort.id}}">
-    <p>Name: {{ relief_effort.name }}</p>
-  </a>
+<br>
+<h2 style="border-bottom: 1px solid black; width: 30%; padding: 12px; margin: 10px;">Current Relief Efforts</h2>
+{% for item in percentage_list %}
+ <div style="width: 30%; display: inline-block; margin: 10px; padding: 15px; background-color: {{item.color}};">
+     <h3>{{ item.relief_effort.name }}</h3>
+     <h4>{{ item.relief_effort.location}}</h4>
+     <p>{{item.percentage_fulfilled}}% Needs Met</p>
+     <a class="btn btn-info" href="/{{item.relief_effort.id}}">Go To Relief Effort</a>
+ </div>
 {% endfor %}
 {% endblock %}
