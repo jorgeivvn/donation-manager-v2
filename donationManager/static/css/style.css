@@ -33,6 +33,10 @@ footer .container-fluid {
   background-repeat: no-repeat;
   color: white !important;
 }
+.profileJumbotron {
+  background-image: none;
+  background: linear-gradient(180deg, #614126, white);
+}
 .jumbotron .container {
   opacity: 0.8;
 }
@@ -163,11 +167,14 @@ ul.nav li a:hover, ul.nav li a:active {
     float: left;
 }
 
-.jumbotron2 {
-  text-align: center;
-  border-bottom: 1px solid #e5e5e5;
+.donationItemData {
+  border: 2px solid #614126;
+  padding: 6px 0px 6px 12px;
+  width: 50%;
+  margin: 0 auto;
+  margin-bottom: 6px;
 }
-.jumbotron2 .btn {
-  padding: 14px 24px;
-  font-size: 21px;
+.myDonationsHeader {
+  text-align: center;
+  margin-bottom: 20px;
 }
