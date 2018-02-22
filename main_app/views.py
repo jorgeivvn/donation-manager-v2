@@ -15,7 +15,7 @@ def generate_completion_percentages(relief_effort_list):
         if len(current_needs) > 0 or len(needs_fulfilled) > 0:
             percentage_fulfilled = round(((len(needs_fulfilled) / (len(needs_fulfilled) + len(current_needs))) * 100), 2)
         else:
-            percentage_fulfilled = None;
+            percentage_fulfilled = 0;
         percentage_and_re = {}
         green = int(255 * percentage_fulfilled / 100)
         red = 255 - green
@@ -89,7 +89,11 @@ def show(request, relief_effort_id):
 def show_donor_profile(request, user_id):
     user = User.objects.get(id=user_id)
     donor = Donor.objects.filter(user=user)
-    return render(request, 'donor_profile.html', {'user': user, 'donor': donor})
+    donations = Donation.objects.filter(donor_id=donor)
+    # donationList = []
+    # for donation in donations:
+    #     item_request = ItemRequest.objects.get(donation.item_request_id)
+    return render(request, 'donor_profile.html', {'user': user, 'donor': donor, 'donations': donations})
 
 def show_org_admin_profile(request, user_id):
     user = User.objects.get(id=user_id)
